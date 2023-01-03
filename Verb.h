@@ -1,5 +1,5 @@
-#ifndef VERB
-#define VERB
+#ifndef VERBH
+#define VERBH
 
 #include <iostream>
 #include <string>
@@ -24,9 +24,9 @@ class Verb : public Word
 {
 public:
 	Verb(int identity, string name, string meaning, vector<ThetaCell> thetaGrid, string note)
-		: Word(identity, name, meaning, note), grid(thetaGrid) {}
+		: Word(identity, name, meaning, VERB, note), grid(thetaGrid) {}
 	Verb(int identity, string name, string meaning, vector<ThetaCell> thetaGrid)
-		: Word(identity, name, meaning), grid(thetaGrid) {}
+		: Word(identity, name, meaning, VERB), grid(thetaGrid) {}
 
 	vector<ThetaCell> grid;
 };

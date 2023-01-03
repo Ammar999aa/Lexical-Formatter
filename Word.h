@@ -1,5 +1,5 @@
-#ifndef WORD
-#define WORD
+#ifndef WORDH
+#define WORDH
 
 
 #include <iostream>
@@ -10,10 +10,10 @@
 class Word
 {
 public:
-	Word(int identity, string name, string meaning, string note)
-		: id(identity), self(name), translation(meaning), note(note) {}
-	Word(int identity, string name, string meaning)
-		: id(identity), self(name), translation(meaning)
+	Word(int identity, string name, string meaning, int cat, string note)
+		: id(identity), self(name), translation(meaning), category(cat), note(note) {}
+	Word(int identity, string name, string meaning, int cat)
+		: id(identity), self(name), translation(meaning), category(cat)
 	{
 		note = "";
 	}
@@ -22,6 +22,7 @@ public:
 	string self;
 	string translation;
 	string note;
+	int category;
 };
 
 

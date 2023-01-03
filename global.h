@@ -1,5 +1,5 @@
-#ifndef GLOBAL
-#define GLOBAL
+#ifndef GLOBALH
+#define GLOBALH
 
 #include <iostream>
 #include <string>
@@ -18,7 +18,7 @@ const string S_CLUSTER[8] = { "p", "t", "k", "r", "l", "n", "m", "x" };
 const string J_CLUSTER[7] = { "r", "l", "n", "m", "b", "d", "g" };
 const string X_CLUSTER[4] = { "n", "m", "r", "l" };
 
-const int VERB = 0;
+// const int VERB = 0;
 const int AGENT = 1;
 const int EXPERIENCER = 2;
 const int THEME = 3;
@@ -33,5 +33,15 @@ const int CP = 2;
 const int AdjP = 3;
 const int AdvP = 4;
 const int VP = 5;
+
+const int VERB = 0;
+const int NOUN = 1;
+const int ADJ = 2;
+const int ADV = 3;
+const int DET = 4;
+const int CONJ = 6;
+const int COMP = 7;
+const int NEG = 8;
+const int TENS = 9;
 
 #endif // !GLOBAL
