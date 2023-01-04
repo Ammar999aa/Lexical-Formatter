@@ -7,6 +7,7 @@
 
 #include "global.h"
 #include "Verb.h"
+#include "Noun.h"
 
 using namespace std;
 
@@ -15,7 +16,19 @@ void clearScreen()
 	cout << "\033[2J\033[1;1H";
 }
 
-string getRandomRoot(vector<Verb> &illegalWords)
+void setSeed()
+{
+	cout << "To set a seed, you can input it here. Otherwise, input 0" << endl;
+	int seed;
+	cin >> seed;
+
+	if (seed == 0)
+		srand(time(0));
+	else
+		srand(seed);
+}
+
+string getRandomRoot(vector<string> &corpus)
 {
 	string word;
 
@@ -61,8 +74,8 @@ string getRandomRoot(vector<Verb> &illegalWords)
 		}
 
 		bool validWord = true;
-		for (int i = 0; i < illegalWords.size(); i++)
-			if (illegalWords[i].self == word)
+		for (int i = 0; i < corpus.size(); i++)
+			if (corpus[i] == word)
 				validWord = false;
 
 		if (validWord)
@@ -70,42 +83,7 @@ string getRandomRoot(vector<Verb> &illegalWords)
 	}
 }
 
-void format(vector<Verb> & dictionary)
-{
-	string throwaway;
-	while (1)
-	{
-
-		vector<string> elements = { "Verb", "Agent", "Experiencer", "Theme", "Goal", "Location", "Beneficiary", "Recipient" };
-		vector<string> types = { "DP", "PP" , "CP", "AdjP", "AdvP", "VP" };
-		vector<string> categories = { "v", "n", "Adj", "Adv", "Det" };
-
-		for (int i = 0; i < dictionary.size(); i++)
-		{
-			cout << dictionary[i].self << " - " << dictionary[i].translation << " (" << categories[dictionary[i].category] << ")" << endl;
-			// traverse through the grid of the verb and print each emelent along with its type
-			cout << "	 | ";
-
-			if (dictionary[i].category == VERB)
-			{
-				for (int j = 0; j < dictionary[i].grid.size(); j++)
-				{
-					cout << elements[dictionary[i].grid[j].element] << " (" << types[dictionary[i].grid[j].type] << ") | ";
-				}
-			}
-			
-			cout << endl << endl;
-		}
-
-		cout << "To quit, submit 'done' or 'd' " << endl;
-		cin >> throwaway;
-		if (throwaway == "done" || throwaway == "d")
-			break;
-		clearScreen();
-	}
-}
-
-void addVerbs(vector<Verb> & library)
+void addVerbs(vector<Verb>& library, vector<string> &corpus)
 {
 	cout << "You can now add verbs. Once finished, submit 'done' " << endl;
 
@@ -124,14 +102,14 @@ void addVerbs(vector<Verb> & library)
 		}
 		else if (name == "r")
 		{
-			name = getRandomRoot(library);
+			name = getRandomRoot(corpus);
 			cout << "The random verb you got is " << name << "! " << endl;
 		}
 		else
 		{
 			bool validWord = true;
-			for (int i = 0; i < library.size(); i++)
-				if (library[i].self == name)
+			for (int i = 0; i < corpus.size(); i++)
+				if (corpus[i] == name)
 					validWord = false;
 
 			if (!validWord)
@@ -140,6 +118,7 @@ void addVerbs(vector<Verb> & library)
 				cout << "input " << name << " already exists" << endl;
 				continue;
 			}
+			corpus.push_back(name);
 		}
 
 		cout << "input the translation" << endl;
@@ -150,22 +129,190 @@ void addVerbs(vector<Verb> & library)
 
 		vector<vector<ThetaCell>> grids = { gridEat, gridWant, gridGo, gridPut, gridSleep };
 
-		library.push_back(Verb(library.size(), name, meaning, grids[role - 1]));
+		library.push_back(Verb(library.size() + 1, name, meaning, grids[role - 1]));
 
 		clearScreen();
 	}
 }
 
-void setSeed()
+void addNouns(vector<Noun>& library, vector<Verb>& verbLibrary, vector<string>& corpus)
 {
-	cout << "To set a seed, you can input it here. Otherwise, input 0" << endl;
-	int seed;
-	cin >> seed;
+	cout << "You can now add nouns. Once finished, submit 'done' " << endl;
 
-	if (seed == 0)
-		srand(time(0));
-	else
-		srand(seed);
+	while (1)
+	{
+		string name = ".";
+		string meaning;
+		int id;
+		Verb* root = nullptr;
+		
+		cout << "add your noun: 'r' for a root-derived noun, 'done' or 'd' to finish" << endl;
+		cin >> name;
+		if (name == "done" || name == "d")
+		{
+			clearScreen();
+			break;
+		}
+		else if (name == "r")
+		{
+			cout << "input the name of the root, or the translation of the root" << endl;
+			cin >> name;
+
+			// search by name
+			bool verbFound = false;
+			for (int i = 0; i < verbLibrary.size(); i++)
+			{
+				if (verbLibrary[i].self == name)
+				{
+					verbFound = true;
+					root = &verbLibrary[i];
+				}
+			}
+
+			//seach by translation (if name not found)
+			if (!verbFound)
+			{
+				for (int i = 0; i < verbLibrary.size(); i++)
+				{
+					if (verbLibrary[i].translation == name)
+					{
+						verbFound = true;
+						root = &verbLibrary[i];
+					}
+				}
+			}
+			
+
+			if (!verbFound)
+			{
+				clearScreen();
+				cout << "root not found. Check spelling or add root";
+				continue;
+			}
+
+			cout << "Root found: \"" << root->self << "\", meaning \"" << root->translation << "\". ID: " << root->id << endl;
+			cout << "choose affix: " << endl;
+			cout << "(1) " << root->self << "al  (2) " << root->self << "ti  " << endl;
+
+			int choice;
+			cin >> choice;
+
+			switch (choice)
+			{
+			case 1:
+				name = root->self + "al";
+				break;
+			case 2:
+				name = root->self + "ti";
+				break;
+			}
+
+			bool validWord = true;
+			for (int j = 0; j < corpus.size(); j++)
+			{
+				if (corpus[j] == name)
+				{
+					!validWord;
+				}
+			}
+
+			if (validWord)
+			{
+				corpus.push_back(name);
+			}
+			else
+			{
+				clearScreen();
+				cout << "word already exists" << endl;
+				continue;
+			}
+
+			cout << "Submit the meaning of " << name << endl;
+			cin >> meaning;
+
+			id = (root->id * 100) + 1;
+			library.push_back(Noun(id, name, meaning, root));
+			clearScreen();
+			cout << name << " added! ID: " << id << endl;
+		}
+		else
+		{
+
+			bool validWord = true;
+			for (int j = 0; j < corpus.size(); j++)
+			{
+				if (corpus[j] == name)
+				{
+					validWord = false;
+				}
+			}
+
+			if (validWord)
+			{
+				corpus.push_back(name);
+			}
+			else
+			{
+				clearScreen();
+				cout << "word already exists" << endl;
+				continue;
+			}
+
+			cout << "enter meaning for " << name << endl;
+			cin >> meaning;
+
+			library.push_back(Noun(1, name, meaning, nullptr));
+
+			clearScreen();
+			cout << "noun created!" << endl;
+
+		}
+	}
+
+}
+
+void format(vector<Verb> & verbLibrary, vector<Noun> & nounLibrary, vector<string> & corpus)
+{
+	string throwaway;
+	while (1)
+	{
+
+		vector<string> elements = { "Verb", "Agent", "Experiencer", "Theme", "Goal", "Location", "Beneficiary", "Recipient" };
+		vector<string> types = { "DP", "PP" , "CP", "AdjP", "AdvP", "VP" };
+		vector<string> categories = { "v", "n", "Adj", "Adv", "Det" };
+
+		for (int i = 0; i < verbLibrary.size(); i++)
+		{
+			cout << verbLibrary[i].self << " - " << verbLibrary[i].translation << " (" << categories[verbLibrary[i].category] << ")" << endl;
+			// traverse through the grid of the verb and print each emelent along with its type
+			cout << "	 | ";
+
+			if (verbLibrary[i].category == VERB)
+			{
+				for (int j = 0; j < verbLibrary[i].grid.size(); j++)
+				{
+					cout << elements[verbLibrary[i].grid[j].element] << " (" << types[verbLibrary[i].grid[j].type] << ") | ";
+				}
+			}
+			
+			cout << endl << endl;
+		}
+		for (int i = 0; i < nounLibrary.size(); i++)
+		{
+			cout << nounLibrary[i].self << " - " << nounLibrary[i].translation << " (" << categories[nounLibrary[i].category] << ")" << endl;
+			
+			if (nounLibrary[i].root != nullptr)
+				cout << "	from: " << nounLibrary[i].root->self << endl;
+
+			cout << endl;
+		}
+
+		cout << "To quit, submit 'done' or 'd' " << endl;
+		cin >> throwaway;
+		if (throwaway == "done" || throwaway == "d")
+			break;
+		clearScreen();
+	}
 }
 
 void generateCode(vector<Verb>& library)
@@ -256,7 +403,7 @@ vector<Verb> parseDelim(string text)
 			identity += temp_id[k] * pow(10, (temp_id.size() - k - 1)) - 48;
 		}
 
-		cerr << "id " << i << ": " << identity << endl;
+		// cerr << "id " << i << ": " << identity << endl;
 		i++;
 		while (text[i] != ';')
 		{
@@ -351,7 +498,10 @@ int main()
 	srand(time(0));
 	Verb done(1, "ken", "do", gridEat);
 	Verb eat(1, "rom", "eat", gridEat);
-	vector<Verb> library = { };
+	vector<Verb> verbLibrary = { };
+	vector<Noun> nounLibrary = { };
+	vector<Word> wordLibrary = { };
+	vector<string> corpus = { };
 
 	cout << "Welcome to the Lexical Formatter, a tool that helps create and format all the words in your Conlang!" << endl;
 	cout << "=========================" << endl;
@@ -359,8 +509,8 @@ int main()
 	while (1)
 	{
 		cout << "You are now in the main menu, select an option to start: " << endl;
-		cout << "(0) Set Seed  (1) Add Verbs  (2) Format  " << endl;
-		cout << "(3) Generate Delim  (4) Upload Delim  " << endl;
+		cout << "(0) Set Seed  (1) Add Verbs  (2) Add Nouns " << endl;
+		cout << "(3) Format  (4) Generate Delim  (5) Upload Delim  " << endl;
 
 		int choice;
 		cin >> choice;
@@ -372,16 +522,19 @@ int main()
 			setSeed();
 			break;
 		case 1:
-			addVerbs(library);
+			addVerbs(verbLibrary, corpus);
 			break;
 		case 2:
-			format(library);
+			addNouns(nounLibrary, verbLibrary, corpus);
 			break;
 		case 3:
-			generateDelim(library);
+			format(verbLibrary, nounLibrary, corpus);
 			break;
 		case 4:
-			uploadWords(library);
+			generateDelim(verbLibrary);
+			break;
+		case 5:
+			uploadWords(verbLibrary);
 		}
 		clearScreen();
 	}
