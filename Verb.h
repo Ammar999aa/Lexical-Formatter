@@ -1,12 +1,12 @@
 #ifndef VERBH
 #define VERBH
 
-#include <iostream>
-#include <string>
-#include <cstdlib>
-#include "global.h"
-#include <vector>
 #include "Word.h"
+#include <vector>
+
+class Noun;
+class Adjective;
+class Adverb;
 
 struct ThetaCell
 {
@@ -23,6 +23,9 @@ public:
 	Verb(int identity, std::string name, std::string meaning, std::vector<ThetaCell> thetaGrid);
 
 	std::vector<ThetaCell> grid;
+	std::vector<Noun*> childNouns;
+	std::vector<Adjective*> childAdjectives;
+	std::vector<Adverb*> childAdverbs;
 };
 
 std::string getRandomRoot(std::vector<std::string>& corpus);

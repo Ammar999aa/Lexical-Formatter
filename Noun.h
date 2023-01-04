@@ -1,8 +1,8 @@
 #ifndef NOUNH
 #define NOUNH
 
-#include "Verb.h";
-#include "Word.h";
+#include "Word.h"
+#include "Verb.h"
 
 class Noun : public Word
 {
@@ -15,4 +15,4 @@ public:
 
 void addNouns(std::vector<Noun>& library, std::vector<Verb>& verbLibrary, std::vector<std::string>& corpus);
 
-#endif NOUNH
+#endif

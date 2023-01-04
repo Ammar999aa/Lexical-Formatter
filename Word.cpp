@@ -6,9 +6,11 @@
 #include <math.h>
 
 #include "global.h"
+#include "Word.h"
 #include "Verb.h"
 #include "Noun.h"
-#include "Word.h"
+#include "Adjective.h"
+#include "Adverb.h"
 
 using namespace std;
 
