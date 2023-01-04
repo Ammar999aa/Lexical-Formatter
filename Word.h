@@ -1,7 +1,6 @@
 #ifndef WORDH
 #define WORDH
 
-
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -10,20 +9,14 @@
 class Word
 {
 public:
-	Word(int identity, string name, string meaning, int cat, string note)
-		: id(identity), self(name), translation(meaning), category(cat), note(note) {}
-	Word(int identity, string name, string meaning, int cat)
-		: id(identity), self(name), translation(meaning), category(cat)
-	{
-		note = "";
-	}
+	Word(int identity, std::string name, std::string meaning, int cat, std::string note);
+	Word(int identity, std::string name, std::string meaning, int cat);
 
 	int id;
-	string self;
-	string translation;
-	string note;
+	std::string self;
+	std::string translation;
+	std::string note;
 	int category;
 };
-
 
 #endif

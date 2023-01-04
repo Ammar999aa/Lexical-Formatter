@@ -4,19 +4,22 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
-using namespace std;
+
+void clearScreen();
+
+void setSeed();
 
 const int CLUSTER_CHANCE = 5;
-const string ONSET_NO_CLUSTER[15] = { "t", "p", "r", "n", "d", "m", "s", "k", "b", "f", "g", "l", "v", "j", "x" };
-const string CODA[16] = { "n", "r", "m", "l", "p", "t", "d", "ng", "s", "v", "j", "k", "x", "b", "f", "g" };
-const string ONSET_CLUSTER[13] = { "t", "p", "d", "s", "k", "b", "f", "g", "v", "s", "j", "x", "j" };
-const string NUCLEUS[7] = { "e", "u", "a", "ee", "oo", "i", "o" };
+const std::string ONSET_NO_CLUSTER[15] = { "t", "p", "r", "n", "d", "m", "s", "k", "b", "f", "g", "l", "v", "j", "x" };
+const std::string CODA[16] = { "n", "r", "m", "l", "p", "t", "d", "ng", "s", "v", "j", "k", "x", "b", "f", "g" };
+const std::string ONSET_CLUSTER[13] = { "t", "p", "d", "s", "k", "b", "f", "g", "v", "s", "j", "x", "j" };
+const std::string NUCLEUS[7] = { "e", "u", "a", "ee", "oo", "i", "o" };
 
-const string PLOSIVE_V_CLUSTER[2] = { "r", "l" };
-const string F_CLUSTER[3] = { "r", "l", "x" };
-const string S_CLUSTER[8] = { "p", "t", "k", "r", "l", "n", "m", "x" };
-const string J_CLUSTER[7] = { "r", "l", "n", "m", "b", "d", "g" };
-const string X_CLUSTER[4] = { "n", "m", "r", "l" };
+const std::string PLOSIVE_V_CLUSTER[2] = { "r", "l" };
+const std::string F_CLUSTER[3] = { "r", "l", "x" };
+const std::string S_CLUSTER[8] = { "p", "t", "k", "r", "l", "n", "m", "x" };
+const std::string J_CLUSTER[7] = { "r", "l", "n", "m", "b", "d", "g" };
+const std::string X_CLUSTER[4] = { "n", "m", "r", "l" };
 
 // const int VERB = 0;
 const int AGENT = 1;

@@ -8,34 +8,31 @@
 #include <vector>
 #include "Word.h"
 
-using namespace std;
-
 struct ThetaCell
 {
-	ThetaCell(int role, int phrase)
-		: element(role), type(phrase) {}
+	ThetaCell(int role, int phrase);
 
 	int element; // example: Agent, Theme...
 	int type; // example: DP, PP...
 };
 
-
 class Verb : public Word
 {
 public:
-	Verb(int identity, string name, string meaning, vector<ThetaCell> thetaGrid, string note)
-		: Word(identity, name, meaning, VERB, note), grid(thetaGrid) {}
-	Verb(int identity, string name, string meaning, vector<ThetaCell> thetaGrid)
-		: Word(identity, name, meaning, VERB), grid(thetaGrid) {}
+	Verb(int identity, std::string name, std::string meaning, std::vector<ThetaCell> thetaGrid, std::string note);
+	Verb(int identity, std::string name, std::string meaning, std::vector<ThetaCell> thetaGrid);
 
-	vector<ThetaCell> grid;
+	std::vector<ThetaCell> grid;
 };
 
+std::string getRandomRoot(std::vector<std::string>& corpus);
 
-const vector<ThetaCell> gridEat = { ThetaCell(AGENT, DP), ThetaCell(THEME, DP) };
-const vector<ThetaCell> gridWant = { ThetaCell(EXPERIENCER, DP), ThetaCell(THEME, CP) };
-const vector<ThetaCell> gridGo = { ThetaCell(EXPERIENCER, DP), ThetaCell(GOAL, PP) };
-const vector<ThetaCell> gridSleep = { ThetaCell(EXPERIENCER, DP) };
-const vector<ThetaCell> gridPut = { ThetaCell(AGENT, DP), ThetaCell(THEME, DP), ThetaCell(GOAL, PP) };
+void addVerbs(std::vector<Verb>& library, std::vector<std::string>& corpus);
+
+const std::vector<ThetaCell> gridEat = { ThetaCell(AGENT, DP), ThetaCell(THEME, DP) };
+const std::vector<ThetaCell> gridWant = { ThetaCell(EXPERIENCER, DP), ThetaCell(THEME, CP) };
+const std::vector<ThetaCell> gridGo = { ThetaCell(EXPERIENCER, DP), ThetaCell(GOAL, PP) };
+const std::vector<ThetaCell> gridSleep = { ThetaCell(EXPERIENCER, DP) };
+const std::vector<ThetaCell> gridPut = { ThetaCell(AGENT, DP), ThetaCell(THEME, DP), ThetaCell(GOAL, PP) };
 
 #endif

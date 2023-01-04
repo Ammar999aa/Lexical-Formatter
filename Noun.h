@@ -7,13 +7,12 @@
 class Noun : public Word
 {
 public:
-	Noun(int identity, string name, string meaning, Verb* root , string note)
-		: Word(identity, name, meaning, NOUN, note), root(root) {}
-	Noun(int identity, string name, string meaning, Verb* root)
-		: Word(identity, name, meaning, NOUN), root(root) {}
+	Noun(int identity, std::string name, std::string meaning, Verb* root, std::string note);
+	Noun(int identity, std::string name, std::string meaning, Verb* root);
 
 	Verb* root;
 };
 
+void addNouns(std::vector<Noun>& library, std::vector<Verb>& verbLibrary, std::vector<std::string>& corpus);
 
 #endif NOUNH
