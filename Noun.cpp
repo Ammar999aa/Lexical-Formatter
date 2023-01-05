@@ -126,6 +126,8 @@ void addNouns(vector<Noun>& library, vector<Verb>& verbLibrary, vector<string>& 
 			id = (root->id * 100) + 1;
 			Noun noun(id, name, meaning, root);
 			library.push_back(noun);
+			corpus.push_back(name);
+
 			//Add this noun as a child to the verb
 			if (root->childNouns == nullptr)
 			{
@@ -173,6 +175,7 @@ void addNouns(vector<Noun>& library, vector<Verb>& verbLibrary, vector<string>& 
 			cin >> meaning;
 
 			library.push_back(Noun(1, name, meaning, nullptr));
+			corpus.push_back(name);
 
 			clearScreen();
 			cout << "noun created!" << endl;

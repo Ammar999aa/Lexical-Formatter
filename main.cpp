@@ -142,7 +142,6 @@ void parseDelim(string& text, vector<Verb>& verbLibrary, vector<Noun>& nounLibra
 	int i = 0;
 	while (i < text.size())
 	{
-		cout << "here" << endl;
 		int identity;
 		int cat;
 		string name = "";
@@ -268,7 +267,6 @@ void parseDelim(string& text, vector<Verb>& verbLibrary, vector<Noun>& nounLibra
 				i--;
 			}
 			nounLibrary.push_back(Noun(identity, name, meaning, root, note));
-			cout << "there" << endl;
 			i += 3;
 		}
 	}
@@ -318,6 +316,8 @@ int main()
 	Verb eat(1, "rom", "eat", gridEat);
 	vector<Verb> verbLibrary = { };
 	vector<Noun> nounLibrary = { };
+	vector<Adjective> adjLibrary = { };
+	vector<Adverb> advLibrary = { };
 	vector<Word> wordLibrary = { };
 	vector<string> corpus = { };
 
@@ -327,7 +327,7 @@ int main()
 	while (1)
 	{
 		cout << "You are now in the main menu, select an option to start: " << endl;
-		cout << "(0) Set Seed  (1) Add Verbs  (2) Add Nouns " << endl;
+		cout << "(0) Set Seed  (1) Add Word  (2) Delete Word " << endl;
 		cout << "(3) Format  (4) Generate Delim  (5) Upload Delim  " << endl;
 
 		int choice;
@@ -340,10 +340,27 @@ int main()
 			setSeed();
 			break;
 		case 1:
-			addVerbs(verbLibrary, corpus);
+			cout << "Choose what to add:" << endl;
+			cout << "(1) Verb  (2) Noun  (3) Adjective  (4) Adverb  " << endl;
+			cin >> choice;
+
+			clearScreen();
+			switch (choice)
+			{
+			case 1:
+				addVerbs(verbLibrary, corpus);
+				break;
+			case 2:
+				addNouns(nounLibrary, verbLibrary, corpus);
+				break;
+			case 3:
+				addAdjectives(adjLibrary, nounLibrary, corpus);
+				break;
+			case 4:
+				addAdverbs(advLibrary, adjLibrary, corpus);
+			}
 			break;
 		case 2:
-			addNouns(nounLibrary, verbLibrary, corpus);
 			break;
 		case 3:
 			format(verbLibrary, nounLibrary, corpus);
