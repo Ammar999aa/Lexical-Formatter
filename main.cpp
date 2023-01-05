@@ -14,7 +14,7 @@
 
 using namespace std;
 
-void format(vector<Verb> & verbLibrary, vector<Noun> & nounLibrary, vector<string> & corpus)
+void format(vector<Verb> & verbLibrary, vector<Noun> & nounLibrary, vector<Adjective>& adjLibrary, vector<Adverb>& advLibrary, vector<string> & corpus)
 {
 	string throwaway;
 	while (1)
@@ -28,7 +28,7 @@ void format(vector<Verb> & verbLibrary, vector<Noun> & nounLibrary, vector<strin
 		{
 			cout << verbLibrary[i].self << " - " << verbLibrary[i].translation << " (" << categories[verbLibrary[i].category] << ")" << endl;
 			// traverse through the grid of the verb and print each emelent along with its type
-			cout << "	 | ";
+			cout << "	| ";
 
 			for (int j = 0; j < verbLibrary[i].grid.size(); j++)
 			{
@@ -38,15 +38,15 @@ void format(vector<Verb> & verbLibrary, vector<Noun> & nounLibrary, vector<strin
 			cout << endl << "	derived:" << endl;
 			if (verbLibrary[i].childNoun != " ")
 			{
-				cout << verbLibrary[i].childNoun << " (n)" << endl;
+				cout << "	" << verbLibrary[i].childNoun << " (n)" << endl;
 			}
 			if (verbLibrary[i].childAdj != " ")
 			{
-				cout << verbLibrary[i].childAdj << " (Adj)" << endl;
+				cout << "	" << verbLibrary[i].childAdj << " (Adj)" << endl;
 			}
 			if (verbLibrary[i].childAdv != " ")
 			{
-				cout << verbLibrary[i].childAdv << " (Adv)" << endl;
+				cout << "	" << verbLibrary[i].childAdv << " (Adv)" << endl;
 			}
 			
 			/*
@@ -75,7 +75,7 @@ void format(vector<Verb> & verbLibrary, vector<Noun> & nounLibrary, vector<strin
 			}
 			*/
 
-			cout << endl << endl;
+			cout << endl;
 		}
 		for (int i = 0; i < nounLibrary.size(); i++)
 		{
@@ -83,6 +83,24 @@ void format(vector<Verb> & verbLibrary, vector<Noun> & nounLibrary, vector<strin
 			
 			if (nounLibrary[i].root != nullptr)
 				cout << "	from: " << nounLibrary[i].root->self << endl;
+
+			cout << endl;
+		}
+		for (int i = 0; i < adjLibrary.size(); i++)
+		{
+			cout << adjLibrary[i].self << " - " << adjLibrary[i].translation << " (" << categories[adjLibrary[i].category] << ")" << endl;
+
+			if (adjLibrary[i].root != nullptr)
+				cout << "	from: " << adjLibrary[i].root->self << endl;
+
+			cout << endl;
+		}
+		for (int i = 0; i < advLibrary.size(); i++)
+		{
+			cout << advLibrary[i].self << " - " << advLibrary[i].translation << " (" << categories[advLibrary[i].category] << ")" << endl;
+
+			if (advLibrary[i].root != nullptr)
+				cout << "	from: " << advLibrary[i].root->self << endl;
 
 			cout << endl;
 		}
@@ -366,7 +384,7 @@ int main()
 		case 2:
 			break;
 		case 3:
-			format(verbLibrary, nounLibrary, corpus);
+			format(verbLibrary, nounLibrary, adjLibrary, advLibrary, corpus);
 			break;
 		case 4:
 			generateDelim(verbLibrary, nounLibrary);
