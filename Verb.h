@@ -23,9 +23,9 @@ public:
 	Verb(int identity, std::string name, std::string meaning, std::vector<ThetaCell> thetaGrid);
 
 	std::vector<ThetaCell> grid;
-	std::vector<Noun*> childNouns;
-	std::vector<Adjective*> childAdjectives;
-	std::vector<Adverb*> childAdverbs;
+	Noun* childNouns;
+	Adjective* childAdjectives;
+	Adverb* childAdverbs;
 };
 
 std::string getRandomRoot(std::vector<std::string>& corpus);

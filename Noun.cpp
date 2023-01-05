@@ -22,6 +22,13 @@ Noun::Noun(int identity, string name, string meaning, Verb* root)
 	: Word(identity, name, meaning, NOUN), root(root) 
 {}
 
+void appendNoun(vector<Noun> library, Noun &noun, Verb *root)
+{
+	library.push_back(noun);
+	//Add this noun as a child to the verb
+	//root->childNouns.push_back(&library[library.size() - 1]);
+}
+
 void addNouns(vector<Noun>& library, vector<Verb>& verbLibrary, vector<string>& corpus)
 {
 	cout << "You can now add nouns. Once finished, submit 'done' " << endl;
@@ -68,7 +75,6 @@ void addNouns(vector<Noun>& library, vector<Verb>& verbLibrary, vector<string>& 
 					}
 				}
 			}
-
 
 			if (!verbFound)
 			{
@@ -118,9 +124,27 @@ void addNouns(vector<Noun>& library, vector<Verb>& verbLibrary, vector<string>& 
 			cin >> meaning;
 
 			id = (root->id * 100) + 1;
-			library.push_back(Noun(id, name, meaning, root));
+			Noun noun(id, name, meaning, root);
+			library.push_back(noun);
+			//Add this noun as a child to the verb
+			if (root->childNouns == nullptr)
+			{
+				root->childNouns = &noun;
+			}
+
+			/*
+			for (int p = 0; p < 5; p++)
+			{
+				if (root->childNouns[p] != nullptr)
+					cout << root->childNouns[p]->self << endl;
+				else
+					cout << "nullptr" << endl;
+			}
+			*/
+			// root->childNouns.push_back(&noun);
 			clearScreen();
 			cout << name << " added! ID: " << id << endl;
+			
 		}
 		else
 		{
