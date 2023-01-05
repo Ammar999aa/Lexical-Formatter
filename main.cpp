@@ -35,17 +35,20 @@ void format(vector<Verb> & verbLibrary, vector<Noun> & nounLibrary, vector<strin
 				cout << elements[verbLibrary[i].grid[j].element] << " (" << types[verbLibrary[i].grid[j].type] << ") | ";
 			}
 			
-			/*
-			cout << endl << "	derived nouns:" << endl;
-			if (verbLibrary[i].childNouns != nullptr)
+			cout << endl << "	derived:" << endl;
+			if (verbLibrary[i].childNoun != " ")
 			{
-				cout << verbLibrary[i].childNouns << endl;
+				cout << verbLibrary[i].childNoun << " (n)" << endl;
 			}
-			else
+			if (verbLibrary[i].childAdj != " ")
 			{
-				cout << "nullptr" << endl;
+				cout << verbLibrary[i].childAdj << " (Adj)" << endl;
 			}
-			*/
+			if (verbLibrary[i].childAdv != " ")
+			{
+				cout << verbLibrary[i].childAdv << " (Adv)" << endl;
+			}
+			
 			/*
 			cout << endl << "	derived nouns:" << endl;
 			for (int j = 0; j < 5; j++)

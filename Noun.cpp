@@ -129,9 +129,9 @@ void addNouns(vector<Noun>& library, vector<Verb>& verbLibrary, vector<string>& 
 			corpus.push_back(name);
 
 			//Add this noun as a child to the verb
-			if (root->childNouns == nullptr)
+			if (root->childNoun == " ")
 			{
-				root->childNouns = &noun;
+				root->childNoun = noun.self;
 			}
 
 			/*

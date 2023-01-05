@@ -121,6 +121,11 @@ void addAdverbs(vector<Adverb>& library, vector<Adjective>& adjLibrary, vector<s
 			library.push_back(adv);
 			corpus.push_back(name);
 
+			if (root->root->root->childAdv == " ")
+			{
+				root->root->root->childAdv = adv.self;
+			}
+
 			clearScreen();
 			cout << name << " added! ID: " << id << endl;
 
