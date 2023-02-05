@@ -24,9 +24,9 @@ public:
 
 	std::list<ThetaCell> grid;
 	//for now
-	std::string childNoun;
-	std::string childAdj;
-	std::string childAdv;
+	std::list<Noun*> childNoun;
+	std::list<Adjective*> childAdj;
+	std::list<Adverb*> childAdv;
 };
 
 std::string getRandomRoot(std::list<std::string>& corpus);

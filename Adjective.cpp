@@ -123,10 +123,7 @@ void addAdjectives(list<Adjective>&library, list<Noun>&nounLibrary, list<string>
 			library.push_back(adj);
 			corpus.push_back(name);
 
-			if (root->root->childAdj == " ")
-			{
-				root->root->childAdj = adj.self;
-			}
+            root->root->childAdj.push_back(&adj);
 
 			clearScreen();
 			cout << name << " added! ID: " << id << endl;

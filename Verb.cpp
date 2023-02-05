@@ -20,11 +20,11 @@ ThetaCell::ThetaCell(int role, int phrase)
 {}
 
 Verb::Verb(int identity, string name, string meaning, list<ThetaCell> thetaGrid, string note)
-	: Word(identity, name, meaning, VERB, note), grid(thetaGrid), childNoun(" "), childAdj(" "), childAdv(" ")
+	: Word(identity, name, meaning, VERB, note), grid(thetaGrid), childNoun(), childAdj(), childAdv()
 {}
 
 Verb::Verb(int identity, string name, string meaning, list<ThetaCell> thetaGrid)
-	: Word(identity, name, meaning, VERB), grid(thetaGrid), childNoun(" "), childAdj(" "), childAdv(" ")
+	: Word(identity, name, meaning, VERB), grid(thetaGrid), childNoun(), childAdj(), childAdv()
 {}
 
 string getRandomRoot(list<string>& corpus)
