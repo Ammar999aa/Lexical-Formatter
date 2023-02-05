@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <vector>
+#include <list>
 #include <cstdlib>
 #include <time.h>
 #include <math.h>
@@ -22,7 +22,7 @@ Adverb::Adverb(int identity, string name, string meaning, Adjective* root)
 	: Word(identity, name, meaning, ADV), root(root)
 {}
 
-void addAdverbs(vector<Adverb>& library, vector<Adjective>& adjLibrary, vector<string>& corpus)
+void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>& corpus)
 {
 	cout << "You can now add adjverbs. Once finished, submit 'done' " << endl;
 
@@ -45,29 +45,30 @@ void addAdverbs(vector<Adverb>& library, vector<Adjective>& adjLibrary, vector<s
 			cout << "input the name of the adjective, or the translation of the adjective" << endl;
 			cin >> name;
 
-			// search by name
-			bool adjFound = false;
-			for (int i = 0; i < adjLibrary.size(); i++)
-			{
-				if (adjLibrary[i].self == name)
-				{
-					adjFound = true;
-					root = &adjLibrary[i];
-				}
-			}
+            // search by name
+            bool adjFound = false;
+            list<Adjective>::iterator adjIt;
+            for (adjIt = adjLibrary.begin(); adjIt != adjLibrary.end(); adjIt++)
+            {
+                if (adjIt->self == name)
+                {
+                    adjFound = true;
+                    root = &(*adjIt);
+                }
+            }
 
-			//seach by translation (if name not found)
-			if (!adjFound)
-			{
-				for (int i = 0; i < adjLibrary.size(); i++)
-				{
-					if (adjLibrary[i].translation == name)
-					{
-						adjFound = true;
-						root = &adjLibrary[i];
-					}
-				}
-			}
+            //seach by translation (if name not found)
+            if (!adjFound)
+            {
+                for (adjIt = adjLibrary.begin(); adjIt != adjLibrary.end(); adjIt++)
+                {
+                    if (adjIt->self == meaning)
+                    {
+                        adjFound = true;
+                        root = &(*adjIt);
+                    }
+                }
+            }
 
 			if (!adjFound)
 			{
@@ -93,14 +94,15 @@ void addAdverbs(vector<Adverb>& library, vector<Adjective>& adjLibrary, vector<s
 				break;
 			}
 
-			bool validWord = true;
-			for (int j = 0; j < corpus.size(); j++)
-			{
-				if (corpus[j] == name)
-				{
-					!validWord;
-				}
-			}
+            bool validWord = true;
+            list<string>::iterator corpusIt;
+            for (corpusIt = corpus.begin(); corpusIt != corpus.end(); corpusIt++)
+            {
+                if (*corpusIt == name)
+                {
+                    validWord = false;
+                }
+            }
 
 			if (validWord)
 			{
@@ -132,15 +134,16 @@ void addAdverbs(vector<Adverb>& library, vector<Adjective>& adjLibrary, vector<s
 		}
 		else
 		{
-			bool validWord = true;
-			for (int j = 0; j < corpus.size(); j++)
-			{
-				if (corpus[j] == name)
-				{
-					validWord = false;
-				}
-			}
-
+            bool validWord = true;
+            list<string>::iterator corpusIt;
+            for (corpusIt = corpus.begin(); corpusIt != corpus.end(); corpusIt++)
+            {
+                if (*corpusIt == name)
+                {
+                    validWord = false;
+                }
+            }
+            
 			if (validWord)
 			{
 				corpus.push_back(name);

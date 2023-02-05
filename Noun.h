@@ -13,6 +13,6 @@ public:
 	Verb* root;
 };
 
-void addNouns(std::vector<Noun>& library, std::vector<Verb>& verbLibrary, std::vector<std::string>& corpus);
+void addNouns(std::list<Noun>& library, std::list<Verb>& verbLibrary, std::list<std::string>& corpus);
 
 #endif

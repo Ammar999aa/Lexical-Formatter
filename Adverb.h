@@ -13,6 +13,6 @@ public:
 	Adjective* root;
 };
 
-void addAdverbs(std::vector<Adverb>& library, std::vector<Adjective>& adjLibrary, std::vector<std::string>& corpus);
+void addAdverbs(std::list<Adverb>& library, std::list<Adjective>& adjLibrary, std::list<std::string>& corpus);
 
 #endif

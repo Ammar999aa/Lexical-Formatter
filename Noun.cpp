@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <vector>
+#include <list>
 #include <cstdlib>
 #include <time.h>
 #include <math.h>
@@ -22,14 +22,14 @@ Noun::Noun(int identity, string name, string meaning, Verb* root)
 	: Word(identity, name, meaning, NOUN), root(root) 
 {}
 
-void appendNoun(vector<Noun> library, Noun &noun, Verb *root)
+void appendNoun(list<Noun> library, Noun &noun, Verb *root)
 {
 	library.push_back(noun);
 	//Add this noun as a child to the verb
 	//root->childNouns.push_back(&library[library.size() - 1]);
 }
 
-void addNouns(vector<Noun>& library, vector<Verb>& verbLibrary, vector<string>& corpus)
+void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus)
 {
 	cout << "You can now add nouns. Once finished, submit 'done' " << endl;
 
@@ -54,27 +54,28 @@ void addNouns(vector<Noun>& library, vector<Verb>& verbLibrary, vector<string>& 
 
 			// search by name
 			bool verbFound = false;
-			for (int i = 0; i < verbLibrary.size(); i++)
-			{
-				if (verbLibrary[i].self == name)
-				{
-					verbFound = true;
-					root = &verbLibrary[i];
-				}
-			}
+            list<Verb>::iterator verbIt;
+            for (verbIt = verbLibrary.begin(); verbIt != verbLibrary.end(); verbIt++)
+            {
+                if (verbIt->self == name)
+                {
+                    verbFound = true;
+                    root = &(*verbIt);
+                }
+            }
 
 			//seach by translation (if name not found)
-			if (!verbFound)
-			{
-				for (int i = 0; i < verbLibrary.size(); i++)
-				{
-					if (verbLibrary[i].translation == name)
-					{
-						verbFound = true;
-						root = &verbLibrary[i];
-					}
-				}
-			}
+            if (!verbFound)
+            {
+                for (verbIt = verbLibrary.begin(); verbIt != verbLibrary.end(); verbIt++)
+                {
+                    if (verbIt->self == meaning)
+                    {
+                        verbFound = true;
+                        root = &(*verbIt);
+                    }
+                }
+            }
 
 			if (!verbFound)
 			{
@@ -100,14 +101,15 @@ void addNouns(vector<Noun>& library, vector<Verb>& verbLibrary, vector<string>& 
 				break;
 			}
 
-			bool validWord = true;
-			for (int j = 0; j < corpus.size(); j++)
-			{
-				if (corpus[j] == name)
-				{
-					!validWord;
-				}
-			}
+            bool validWord = true;
+            list<string>::iterator corpusIt;
+            for (corpusIt = corpus.begin(); corpusIt != corpus.end(); corpusIt++)
+            {
+                if (*corpusIt == name)
+                {
+                    validWord = false;
+                }
+            }
 
 			if (validWord)
 			{
@@ -151,14 +153,15 @@ void addNouns(vector<Noun>& library, vector<Verb>& verbLibrary, vector<string>& 
 		else
 		{
 
-			bool validWord = true;
-			for (int j = 0; j < corpus.size(); j++)
-			{
-				if (corpus[j] == name)
-				{
-					validWord = false;
-				}
-			}
+            bool validWord = true;
+            list<string>::iterator corpusIt;
+            for (corpusIt = corpus.begin(); corpusIt != corpus.end(); corpusIt++)
+            {
+                if (*corpusIt == name)
+                {
+                    validWord = false;
+                }
+            }
 
 			if (validWord)
 			{

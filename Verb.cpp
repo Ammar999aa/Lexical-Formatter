@@ -1,9 +1,10 @@
 #include <iostream>
 #include <string>
-#include <vector>
+#include <list>
 #include <cstdlib>
 #include <time.h>
 #include <math.h>
+#include <vector>
 
 #include "global.h"
 #include "Word.h"
@@ -18,15 +19,15 @@ ThetaCell::ThetaCell(int role, int phrase)
 	: element(role), type(phrase) 
 {}
 
-Verb::Verb(int identity, string name, string meaning, vector<ThetaCell> thetaGrid, string note)
+Verb::Verb(int identity, string name, string meaning, list<ThetaCell> thetaGrid, string note)
 	: Word(identity, name, meaning, VERB, note), grid(thetaGrid), childNoun(" "), childAdj(" "), childAdv(" ")
 {}
 
-Verb::Verb(int identity, string name, string meaning, vector<ThetaCell> thetaGrid)
+Verb::Verb(int identity, string name, string meaning, list<ThetaCell> thetaGrid)
 	: Word(identity, name, meaning, VERB), grid(thetaGrid), childNoun(" "), childAdj(" "), childAdv(" ")
 {}
 
-string getRandomRoot(vector<string>& corpus)
+string getRandomRoot(list<string>& corpus)
 {
 	string word;
 
@@ -72,8 +73,9 @@ string getRandomRoot(vector<string>& corpus)
 		}
 
 		bool validWord = true;
-		for (int i = 0; i < corpus.size(); i++)
-			if (corpus[i] == word)
+        list<string>::iterator corpusIt;
+		for (corpusIt = corpus.begin(); corpusIt != corpus.end(); corpusIt++)
+			if (*corpusIt == word)
 				validWord = false;
 
 		if (validWord)
@@ -81,7 +83,7 @@ string getRandomRoot(vector<string>& corpus)
 	}
 }
 
-void addVerbs(vector<Verb>& library, vector<string>& corpus)
+void addVerbs(list<Verb>& library, list<string>& corpus)
 {
 	cout << "You can now add verbs. Once finished, submit 'done' " << endl;
 
@@ -105,10 +107,11 @@ void addVerbs(vector<Verb>& library, vector<string>& corpus)
 		}
 		else
 		{
-			bool validWord = true;
-			for (int i = 0; i < corpus.size(); i++)
-				if (corpus[i] == name)
-					validWord = false;
+            bool validWord = true;
+            list<string>::iterator corpusIt;
+            for (corpusIt = corpus.begin(); corpusIt != corpus.end(); corpusIt++)
+                if (*corpusIt == name)
+                    validWord = false;
 
 			if (!validWord)
 			{
@@ -125,7 +128,7 @@ void addVerbs(vector<Verb>& library, vector<string>& corpus)
 			<< "(1) eat     (2) want    (3) go      (4) put     (5) sleep   " << endl;
 		cin >> role;
 
-		vector<vector<ThetaCell>> grids = { gridEat, gridWant, gridGo, gridPut, gridSleep };
+		vector<list<ThetaCell>> grids = { gridEat, gridWant, gridGo, gridPut, gridSleep };
 
 		library.push_back(Verb(library.size() + 1, name, meaning, grids[role - 1]));
 

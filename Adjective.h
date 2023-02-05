@@ -13,6 +13,6 @@ public:
 	Noun* root;
 };
 
-void addAdjectives(std::vector<Adjective>& library, std::vector<Noun>& nounLibrary, std::vector<std::string>& corpus);
+void addAdjectives(std::list<Adjective>& library, std::list<Noun>& nounLibrary, std::list<std::string>& corpus);
 
 #endif

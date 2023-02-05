@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <vector>
+#include <list>
 #include <cstdlib>
 #include <time.h>
 #include <math.h>
@@ -16,7 +16,8 @@ using namespace std;
 
 void clearScreen()
 {
-	cout << "\033[2J\033[1;1H";
+    cout << "\033[2J\033[1;1H";
+    cout << string(100, '\n');
 }
 
 void setSeed()

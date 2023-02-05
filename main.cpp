@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
-#include <vector>
+#include <list>
+#include <list>
 #include <cstdlib>
 #include <time.h>
 #include <math.h>
+#include <vector>
 
 #include "global.h"
 #include "Word.h"
@@ -14,7 +16,7 @@
 
 using namespace std;
 
-void format(vector<Verb> & verbLibrary, vector<Noun> & nounLibrary, vector<Adjective>& adjLibrary, vector<Adverb>& advLibrary, vector<string> & corpus)
+void format(list<Verb> & verbLibrary, list<Noun> & nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary, list<string> & corpus)
 {
 	string throwaway;
 	while (1)
@@ -23,30 +25,32 @@ void format(vector<Verb> & verbLibrary, vector<Noun> & nounLibrary, vector<Adjec
 		vector<string> elements = { "Verb", "Agent", "Experiencer", "Theme", "Goal", "Location", "Beneficiary", "Recipient" };
 		vector<string> types = { "DP", "PP" , "CP", "AdjP", "AdvP", "VP" };
 		vector<string> categories = { "v", "n", "Adj", "Adv", "Det" };
-
-		for (int i = 0; i < verbLibrary.size(); i++)
+        
+        list<Verb>::iterator verbIt;
+		for (verbIt = verbLibrary.begin(); verbIt != verbLibrary.end(); verbIt++)
 		{
-			cout << verbLibrary[i].self << " - " << verbLibrary[i].translation << " (" << categories[verbLibrary[i].category] << ")" << endl;
+			cout << verbIt->self << " - " << verbIt->translation << " (" << categories[verbIt->category] << ")" << endl;
 			// traverse through the grid of the verb and print each emelent along with its type
 			cout << "	| ";
-
-			for (int j = 0; j < verbLibrary[i].grid.size(); j++)
+            
+            list<ThetaCell>::iterator thetaIt;
+			for (thetaIt = verbIt->grid.begin(); thetaIt != verbIt->grid.end(); thetaIt++)
 			{
-				cout << elements[verbLibrary[i].grid[j].element] << " (" << types[verbLibrary[i].grid[j].type] << ") | ";
+				cout << elements[thetaIt->element] << " (" << types[thetaIt->type] << ") | ";
 			}
 			
 			cout << endl << "	derived:" << endl;
-			if (verbLibrary[i].childNoun != " ")
+			if (verbIt->childNoun != " ")
 			{
-				cout << "	" << verbLibrary[i].childNoun << " (n)" << endl;
+				cout << "	" << verbIt->childNoun << " (n)" << endl;
 			}
-			if (verbLibrary[i].childAdj != " ")
+			if (verbIt->childAdj != " ")
 			{
-				cout << "	" << verbLibrary[i].childAdj << " (Adj)" << endl;
+				cout << "	" << verbIt->childAdj << " (Adj)" << endl;
 			}
-			if (verbLibrary[i].childAdv != " ")
+			if (verbIt->childAdv != " ")
 			{
-				cout << "	" << verbLibrary[i].childAdv << " (Adv)" << endl;
+				cout << "	" << verbIt->childAdv << " (Adv)" << endl;
 			}
 			
 			/*
@@ -77,33 +81,39 @@ void format(vector<Verb> & verbLibrary, vector<Noun> & nounLibrary, vector<Adjec
 
 			cout << endl;
 		}
-		for (int i = 0; i < nounLibrary.size(); i++)
+        
+        list<Noun>::iterator nounIt;
+		for (nounIt = nounLibrary.begin(); nounIt != nounLibrary.end(); nounIt++)
 		{
-			cout << nounLibrary[i].self << " - " << nounLibrary[i].translation << " (" << categories[nounLibrary[i].category] << ")" << endl;
+			cout << nounIt->self << " - " << nounIt->translation << " (" << categories[nounIt->category] << ")" << endl;
 			
-			if (nounLibrary[i].root != nullptr)
-				cout << "	from: " << nounLibrary[i].root->self << endl;
+			if (nounIt->root != nullptr)
+				cout << "	from: " << nounIt->root->self << endl;
 
 			cout << endl;
 		}
-		for (int i = 0; i < adjLibrary.size(); i++)
+        
+        list<Adjective>::iterator adjIt;
+		for (adjIt = adjLibrary.begin(); adjIt != adjLibrary.end(); adjIt++)
 		{
-			cout << adjLibrary[i].self << " - " << adjLibrary[i].translation << " (" << categories[adjLibrary[i].category] << ")" << endl;
+			cout << adjIt->self << " - " << adjIt->translation << " (" << categories[adjIt->category] << ")" << endl;
 
-			if (adjLibrary[i].root != nullptr)
-				cout << "	from: " << adjLibrary[i].root->self << endl;
-
-			cout << endl;
-		}
-		for (int i = 0; i < advLibrary.size(); i++)
-		{
-			cout << advLibrary[i].self << " - " << advLibrary[i].translation << " (" << categories[advLibrary[i].category] << ")" << endl;
-
-			if (advLibrary[i].root != nullptr)
-				cout << "	from: " << advLibrary[i].root->self << endl;
+			if (adjIt->root != nullptr)
+				cout << "	from: " << adjIt->root->self << endl;
 
 			cout << endl;
 		}
+        
+        list<Adverb>::iterator advIt;
+        for (advIt = advLibrary.begin(); advIt != advLibrary.end(); advIt++)
+        {
+            cout << advIt->self << " - " << advIt->translation << " (" << categories[advIt->category] << ")" << endl;
+
+            if (advIt->root != nullptr)
+                cout << "    from: " << advIt->root->self << endl;
+
+            cout << endl;
+        }
 
 		cout << "To quit, submit 'done' or 'd' " << endl;
 		cin >> throwaway;
@@ -113,7 +123,14 @@ void format(vector<Verb> & verbLibrary, vector<Noun> & nounLibrary, vector<Adjec
 	}
 }
 
-void generateDelim(vector<Verb>& verbLibrary, vector<Noun> &nounLibrary, vector<Adjective>& adjLibrary, vector<Adverb>& advLibrary)
+void generateDelim(list<Verb>& verbLibrary, list<Noun> &nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary)
+{
+}
+void parseDelim(string& text, list<Verb>& verbLibrary, list<Noun>& nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary)
+{
+}
+/*
+void generateDelim(list<Verb>& verbLibrary, list<Noun> &nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary)
 {
 	
 	string throwaway;
@@ -170,7 +187,7 @@ void generateDelim(vector<Verb>& verbLibrary, vector<Noun> &nounLibrary, vector<
 
 }
 
-void parseDelim(string& text, vector<Verb>& verbLibrary, vector<Noun>& nounLibrary, vector<Adjective>& adjLibrary, vector<Adverb>& advLibrary)
+void parseDelim(string& text, list<Verb>& verbLibrary, list<Noun>& nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary)
 {
 	int i = 0;
 	while (i < text.size())
@@ -241,8 +258,8 @@ void parseDelim(string& text, vector<Verb>& verbLibrary, vector<Noun>& nounLibra
 		i++;
 		if (cat == VERB)
 		{
-			vector<int> roles = {};
-			vector<int> phrases = {};
+			list<int> roles = {};
+			list<int> phrases = {};
 
 			int gridSize = text[i] - 48;
 			i += 2;
@@ -259,7 +276,7 @@ void parseDelim(string& text, vector<Verb>& verbLibrary, vector<Noun>& nounLibra
 
 			i++;
 
-			vector<ThetaCell> thetaGrid = {};
+			list<ThetaCell> thetaGrid = {};
 			for (int p = 0; p < gridSize; p++)
 			{
 				thetaGrid.push_back(ThetaCell(roles[p], phrases[p]));
@@ -287,7 +304,7 @@ void parseDelim(string& text, vector<Verb>& verbLibrary, vector<Noun>& nounLibra
 					i++;
 				}
 
-				for (int k = 0; k < verbLibrary.size(); k++)
+                for (int k = 0; k < verbLibrary.size(); k++)
 				{
 					if (verbLibrary[k].self == rootName)
 					{
@@ -355,8 +372,9 @@ void parseDelim(string& text, vector<Verb>& verbLibrary, vector<Noun>& nounLibra
 		}
 	}
 }
-
-void uploadWords(vector<Verb> &verbLibrary, vector<Noun> &nounLibrary, vector<Adjective>& adjLibrary, vector<Adverb>& advLibrary)
+*/
+ 
+void uploadWords(list<Verb> &verbLibrary, list<Noun> &nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary)
 {
 	string throwaway;
 	while (1)
@@ -386,12 +404,12 @@ int main()
 	srand(time(0));
 	Verb done(1, "ken", "do", gridEat);
 	Verb eat(1, "rom", "eat", gridEat);
-	vector<Verb> verbLibrary = { };
-	vector<Noun> nounLibrary = { };
-	vector<Adjective> adjLibrary = { };
-	vector<Adverb> advLibrary = { };
-	vector<Word> wordLibrary = { };
-	vector<string> corpus = { };
+	list<Verb> verbLibrary = { };
+	list<Noun> nounLibrary = { };
+	list<Adjective> adjLibrary = { };
+	list<Adverb> advLibrary = { };
+	list<Word> wordLibrary = { };
+	list<string> corpus = { };
 
 	cout << "Welcome to the Lexical Formatter, a tool that helps create and format all the words in your Conlang!" << endl;
 	cout << "=========================" << endl;
@@ -447,3 +465,4 @@ int main()
 	}
 
 }
+

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <vector>
+#include <list>
 #include <cstdlib>
 #include <time.h>
 #include <math.h>
@@ -22,7 +22,7 @@ Adjective::Adjective(int identity, string name, string meaning, Noun* root)
 	: Word(identity, name, meaning, ADJ), root(root)
 {}
 
-void addAdjectives(vector<Adjective>&library, vector<Noun>&nounLibrary, vector<string>&corpus)
+void addAdjectives(list<Adjective>&library, list<Noun>&nounLibrary, list<string>&corpus)
 {
 	cout << "You can now add adjectives. Once finished, submit 'done' " << endl;
 
@@ -47,26 +47,27 @@ void addAdjectives(vector<Adjective>&library, vector<Noun>&nounLibrary, vector<s
 
 			// search by name
 			bool nounFound = false;
-			for (int i = 0; i < nounLibrary.size(); i++)
-			{
-				if (nounLibrary[i].self == name)
-				{
-					nounFound = true;
-					root = &nounLibrary[i];
-				}
-			}
+            list<Noun>::iterator nounIt;
+            for (nounIt = nounLibrary.begin(); nounIt != nounLibrary.end(); nounIt++)
+            {
+                if (nounIt->self == name)
+                {
+                    nounFound = true;
+                    root = &(*nounIt);
+                }
+            }
 
 			//seach by translation (if name not found)
 			if (!nounFound)
 			{
-				for (int i = 0; i < nounLibrary.size(); i++)
-				{
-					if (nounLibrary[i].translation == name)
-					{
-						nounFound = true;
-						root = &nounLibrary[i];
-					}
-				}
+                for (nounIt = nounLibrary.begin(); nounIt != nounLibrary.end(); nounIt++)
+                {
+                    if (nounIt->self == meaning)
+                    {
+                        nounFound = true;
+                        root = &(*nounIt);
+                    }
+                }
 			}
 
 			if (!nounFound)
@@ -94,11 +95,12 @@ void addAdjectives(vector<Adjective>&library, vector<Noun>&nounLibrary, vector<s
 			}
 
 			bool validWord = true;
-			for (int j = 0; j < corpus.size(); j++)
+            list<string>::iterator corpusIt;
+			for (corpusIt = corpus.begin(); corpusIt != corpus.end(); corpusIt++)
 			{
-				if (corpus[j] == name)
+				if (*corpusIt == name)
 				{
-					!validWord;
+					validWord = false;
 				}
 			}
 
@@ -134,13 +136,14 @@ void addAdjectives(vector<Adjective>&library, vector<Noun>&nounLibrary, vector<s
 		{
 
 			bool validWord = true;
-			for (int j = 0; j < corpus.size(); j++)
-			{
-				if (corpus[j] == name)
-				{
-					validWord = false;
-				}
-			}
+            list<string>::iterator corpusIt;
+            for (corpusIt = corpus.begin(); corpusIt != corpus.end(); corpusIt++)
+            {
+                if (*corpusIt == name)
+                {
+                    validWord = false;
+                }
+            }
 
 			if (validWord)
 			{

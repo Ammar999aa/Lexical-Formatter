@@ -2,7 +2,7 @@
 #define VERBH
 
 #include "Word.h"
-#include <vector>
+#include <list>
 
 class Noun;
 class Adjective;
@@ -19,24 +19,24 @@ struct ThetaCell
 class Verb : public Word
 {
 public:
-	Verb(int identity, std::string name, std::string meaning, std::vector<ThetaCell> thetaGrid, std::string note);
-	Verb(int identity, std::string name, std::string meaning, std::vector<ThetaCell> thetaGrid);
+	Verb(int identity, std::string name, std::string meaning, std::list<ThetaCell> thetaGrid, std::string note);
+	Verb(int identity, std::string name, std::string meaning, std::list<ThetaCell> thetaGrid);
 
-	std::vector<ThetaCell> grid;
+	std::list<ThetaCell> grid;
 	//for now
 	std::string childNoun;
 	std::string childAdj;
 	std::string childAdv;
 };
 
-std::string getRandomRoot(std::vector<std::string>& corpus);
+std::string getRandomRoot(std::list<std::string>& corpus);
 
-void addVerbs(std::vector<Verb>& library, std::vector<std::string>& corpus);
+void addVerbs(std::list<Verb>& library, std::list<std::string>& corpus);
 
-const std::vector<ThetaCell> gridEat = { ThetaCell(AGENT, DP), ThetaCell(THEME, DP) };
-const std::vector<ThetaCell> gridWant = { ThetaCell(EXPERIENCER, DP), ThetaCell(THEME, CP) };
-const std::vector<ThetaCell> gridGo = { ThetaCell(EXPERIENCER, DP), ThetaCell(GOAL, PP) };
-const std::vector<ThetaCell> gridSleep = { ThetaCell(EXPERIENCER, DP) };
-const std::vector<ThetaCell> gridPut = { ThetaCell(AGENT, DP), ThetaCell(THEME, DP), ThetaCell(GOAL, PP) };
+const std::list<ThetaCell> gridEat = { ThetaCell(AGENT, DP), ThetaCell(THEME, DP) };
+const std::list<ThetaCell> gridWant = { ThetaCell(EXPERIENCER, DP), ThetaCell(THEME, CP) };
+const std::list<ThetaCell> gridGo = { ThetaCell(EXPERIENCER, DP), ThetaCell(GOAL, PP) };
+const std::list<ThetaCell> gridSleep = { ThetaCell(EXPERIENCER, DP) };
+const std::list<ThetaCell> gridPut = { ThetaCell(AGENT, DP), ThetaCell(THEME, DP), ThetaCell(GOAL, PP) };
 
 #endif

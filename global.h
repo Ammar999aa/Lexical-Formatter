@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
-#include <vector>
+#include <list>
 
 void clearScreen();
 
