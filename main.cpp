@@ -123,58 +123,57 @@ void format(list<Verb> & verbLibrary, list<Noun> & nounLibrary, list<Adjective>&
 	}
 }
 
-void generateDelim(list<Verb>& verbLibrary, list<Noun> &nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary)
-{
-}
-void parseDelim(string& text, list<Verb>& verbLibrary, list<Noun>& nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary)
-{
-}
-/*
+
 void generateDelim(list<Verb>& verbLibrary, list<Noun> &nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary)
 {
 	
 	string throwaway;
 	while (1)
 	{
-		for (int i = 0; i < verbLibrary.size(); i++)
+        list<Verb>::iterator verbIt;
+		for (verbIt = verbLibrary.begin(); verbIt != verbLibrary.end(); verbIt++)
 		{
-			cout << verbLibrary[i].category << ";" << verbLibrary[i].id << ";" << verbLibrary[i].self << ";" << verbLibrary[i].translation << ";" << verbLibrary[i].note << ";";
-			cout << verbLibrary[i].grid.size() << ";";
-
-			for (int j = 0; j < verbLibrary[i].grid.size(); j++)
+			cout << verbIt->category << ";" << verbIt->id << ";" << verbIt->self << ";" << verbIt->translation << ";" << verbIt->note << ";";
+			cout << verbIt->grid.size() << ";";
+            
+            list<ThetaCell>::iterator thetaIt;
+			for (thetaIt = verbIt->grid.begin(); thetaIt != verbIt->grid.end(); thetaIt++)
 			{
-				cout << verbLibrary[i].grid[j].element << ";" << verbLibrary[i].grid[j].type << ";";
+				cout << thetaIt->element << ";" << thetaIt->type << ";";
 			}
 			cout << "#";
 		}
-
-		for (int i = 0; i < nounLibrary.size(); i++)
+        
+        list<Noun>::iterator nounIt;
+		for (nounIt = nounLibrary.begin(); nounIt != nounLibrary.end(); nounIt++)
 		{
-			cout << nounLibrary[i].category << ";" << nounLibrary[i].id << ";" << nounLibrary[i].self << ";" << nounLibrary[i].translation << ";" << nounLibrary[i].note << ";";
-			if (nounLibrary[i].root == nullptr)
+			cout << nounIt->category << ";" << nounIt->id << ";" << nounIt->self << ";" << nounIt->translation << ";" << nounIt->note << ";";
+			if (nounIt->root == nullptr)
 				cout << "0;";
 			else
-				cout << nounLibrary[i].root->self << ";";
+				cout << nounIt->root->self << ";";
+			cout << "#";
+		}
+        
+        list<Adjective>::iterator adjIt;
+		for (adjIt = adjLibrary.begin() ; adjIt != adjLibrary.end(); adjIt++)
+		{
+			cout << adjIt->category << ";" << adjIt->id << ";" << adjIt->self << ";" << adjIt->translation << ";" << adjIt->note << ";";
+			if (adjIt->root == nullptr)
+				cout << "0;";
+			else
+				cout << adjIt->root->self << ";";
 			cout << "#";
 		}
 
-		for (int i = 0; i < adjLibrary.size(); i++)
+        list<Adverb>::iterator advIt;
+		for (advIt = advLibrary.begin() ; advIt != advLibrary.end(); advIt++)
 		{
-			cout << adjLibrary[i].category << ";" << adjLibrary[i].id << ";" << adjLibrary[i].self << ";" << adjLibrary[i].translation << ";" << adjLibrary[i].note << ";";
-			if (adjLibrary[i].root == nullptr)
+			cout << advIt->category << ";" << advIt->id << ";" << advIt->self << ";" << advIt->translation << ";" << advIt->note << ";";
+			if (advIt->root == nullptr)
 				cout << "0;";
 			else
-				cout << adjLibrary[i].root->self << ";";
-			cout << "#";
-		}
-
-		for (int i = 0; i < advLibrary.size(); i++)
-		{
-			cout << advLibrary[i].category << ";" << advLibrary[i].id << ";" << advLibrary[i].self << ";" << advLibrary[i].translation << ";" << advLibrary[i].note << ";";
-			if (advLibrary[i].root == nullptr)
-				cout << "0;";
-			else
-				cout << advLibrary[i].root->self << ";";
+				cout << advIt->root->self << ";";
 			cout << "#";
 		}
 
@@ -258,8 +257,8 @@ void parseDelim(string& text, list<Verb>& verbLibrary, list<Noun>& nounLibrary, 
 		i++;
 		if (cat == VERB)
 		{
-			list<int> roles = {};
-			list<int> phrases = {};
+			vector<int> roles = {};
+			vector<int> phrases = {};
 
 			int gridSize = text[i] - 48;
 			i += 2;
@@ -303,17 +302,18 @@ void parseDelim(string& text, list<Verb>& verbLibrary, list<Noun>& nounLibrary, 
 					rootName += text[i];
 					i++;
 				}
-
-                for (int k = 0; k < verbLibrary.size(); k++)
+                
+                list<Verb>::iterator verbIt;
+                for (verbIt = verbLibrary.begin(); verbIt != verbLibrary.end(); verbIt++)
 				{
-					if (verbLibrary[k].self == rootName)
+					if (verbIt->self == rootName)
 					{
-						root = &verbLibrary[k];
+						root = &*verbIt;
 					}
 				}
 				i--;
 			}
-			nounLibrary.push_back(Noun(identity, name, meaning, root, note));
+            nounLibrary.push_back(Noun(identity, name, meaning, root, note));
 			i += 3;
 		}
 
@@ -330,12 +330,13 @@ void parseDelim(string& text, list<Verb>& verbLibrary, list<Noun>& nounLibrary, 
 					rootName += text[i];
 					i++;
 				}
-
-				for (int k = 0; k < nounLibrary.size(); k++)
+                
+                list<Noun>::iterator nounIt;
+                for (nounIt = nounLibrary.begin(); nounIt != nounLibrary.end(); nounIt++)
 				{
-					if (nounLibrary[k].self == rootName)
+					if (nounIt->self == rootName)
 					{
-						root = &nounLibrary[k];
+						root = &*nounIt;
 					}
 				}
 				i--;
@@ -357,12 +358,13 @@ void parseDelim(string& text, list<Verb>& verbLibrary, list<Noun>& nounLibrary, 
 					rootName += text[i];
 					i++;
 				}
-
-				for (int k = 0; k < adjLibrary.size(); k++)
+                
+                list<Adjective>::iterator adjIt;
+				for (adjIt = adjLibrary.begin();  adjIt != adjLibrary.end(); adjIt++)
 				{
-					if (adjLibrary[k].self == rootName)
+					if (adjIt->self == rootName)
 					{
-						root = &adjLibrary[k];
+						root = &*adjIt;
 					}
 				}
 				i--;
@@ -372,7 +374,7 @@ void parseDelim(string& text, list<Verb>& verbLibrary, list<Noun>& nounLibrary, 
 		}
 	}
 }
-*/
+
  
 void uploadWords(list<Verb> &verbLibrary, list<Noun> &nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary)
 {
