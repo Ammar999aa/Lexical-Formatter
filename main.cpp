@@ -44,17 +44,17 @@ void format(list<Verb> & verbLibrary, list<Noun> & nounLibrary, list<Adjective>&
             list<Noun*>::iterator nounIt;
             for (nounIt = verbIt->childNoun.begin(); nounIt != verbIt->childNoun.end(); nounIt++)
             {
-                cout << "    " << &(*nounIt)->self << " (n)" << endl; //what in the ??
+                cout << "    " << (*nounIt)->self << " (n)" << endl; //what in the ??
             }
             list<Adjective*>::iterator adjIt;
             for (adjIt = verbIt->childAdj.begin(); adjIt != verbIt->childAdj.end(); adjIt++)
 			{
-				cout << "	" << &(*adjIt)->self << " (Adj)" << endl;
+				cout << "	" << (*adjIt)->self << " (Adj)" << endl;
 			}
             list<Adverb*>::iterator advIt;
             for (advIt = verbIt->childAdv.begin(); advIt != verbIt->childAdv.end(); advIt++)
 			{
-				cout << "	" << &(*advIt)->self << " (Adv)" << endl;
+				cout << "	" << (*advIt)->self << " (Adv)" << endl;
 			}
 			
 			/*

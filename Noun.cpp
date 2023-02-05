@@ -131,9 +131,10 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 			corpus.push_back(name);
 
 			//Add this noun as a child to the verb
-            cerr << &(noun.self) << endl;
+            //cerr << &(noun.self) << endl;
             root->childNoun.push_back(&noun);
-
+            
+            //cout << (*(root->childNoun.begin()))->self << endl;
 			/*
 			for (int p = 0; p < 5; p++)
 			{
