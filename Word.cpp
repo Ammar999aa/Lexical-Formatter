@@ -23,3 +23,29 @@ Word::Word(int identity, string name, string meaning, int cat)
 {
 	note = "";
 }
+
+// accessors
+int Word::getId() const
+{
+    return id;
+}
+
+string Word::getSelf() const
+{
+    return self;
+}
+
+string Word::getTranslation() const
+{
+    return translation;
+}
+
+string Word::getNote() const
+{
+    return note;
+}
+
+int Word::getCategory() const
+{
+    return category;
+}

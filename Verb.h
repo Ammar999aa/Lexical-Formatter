@@ -21,9 +21,15 @@ class Verb : public Word
 public:
 	Verb(int identity, std::string name, std::string meaning, std::list<ThetaCell> thetaGrid, std::string note);
 	Verb(int identity, std::string name, std::string meaning, std::list<ThetaCell> thetaGrid);
-
+    //acessors
+    std::list<ThetaCell> getGrid() const;
+    std::list<Noun*> getChildNoun() const;
+    std::list<Adjective*> getChildAdj() const;
+    std::list<Adverb*> getChildAdv() const;
+    
+private:
 	std::list<ThetaCell> grid;
-	//for now
+    
 	std::list<Noun*> childNoun;
 	std::list<Adjective*> childAdj;
 	std::list<Adverb*> childAdv;

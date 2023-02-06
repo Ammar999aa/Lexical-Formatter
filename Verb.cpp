@@ -27,6 +27,26 @@ Verb::Verb(int identity, string name, string meaning, list<ThetaCell> thetaGrid)
 	: Word(identity, name, meaning, VERB), grid(thetaGrid), childNoun(), childAdj(), childAdv()
 {}
 
+std::list<ThetaCell> Verb::getGrid() const
+{
+    return grid;
+}
+
+std::list<Noun*> Verb::getChildNoun() const
+{
+    return childNoun;
+}
+
+std::list<Adjective*> Verb::getChildAdj() const
+{
+    return childAdj;
+}
+
+std::list<Adverb*> Verb::getChildAdv() const
+{
+    return childAdv;
+}
+
 string getRandomRoot(list<string>& corpus)
 {
 	string word;
@@ -130,8 +150,11 @@ void addVerbs(list<Verb>& library, list<string>& corpus)
 
 		vector<list<ThetaCell>> grids = { gridEat, gridWant, gridGo, gridPut, gridSleep };
 
-		library.push_back(Verb(library.size() + 1, name, meaning, grids[role - 1]));
-
+        Verb finalVerb(library.size() + 1, name, meaning, grids[role - 1]);
+		library.push_back(finalVerb);
+        
+        //list<ThetaCell>::iterator thetaIt;
+        //for (thetaIt = library.end()->getGrid().begin(); thetaIt = )
 		clearScreen();
 	}
 }

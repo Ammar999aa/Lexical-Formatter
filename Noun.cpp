@@ -22,6 +22,11 @@ Noun::Noun(int identity, string name, string meaning, Verb* root)
 	: Word(identity, name, meaning, NOUN), root(root) 
 {}
 
+Verb* Noun::getRoot() const
+{
+    return root;
+}
+
 void appendNoun(list<Noun> library, Noun &noun, Verb *root)
 {
 	library.push_back(noun);
@@ -57,7 +62,7 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
             list<Verb>::iterator verbIt;
             for (verbIt = verbLibrary.begin(); verbIt != verbLibrary.end(); verbIt++)
             {
-                if (verbIt->self == name)
+                if (verbIt->getSelf() == name)
                 {
                     verbFound = true;
                     root = &(*verbIt);
@@ -69,7 +74,7 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
             {
                 for (verbIt = verbLibrary.begin(); verbIt != verbLibrary.end(); verbIt++)
                 {
-                    if (verbIt->self == meaning)
+                    if (verbIt->getSelf() == meaning)
                     {
                         verbFound = true;
                         root = &(*verbIt);
@@ -84,9 +89,9 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 				continue;
 			}
 
-			cout << "Root found: \"" << root->self << "\", meaning \"" << root->translation << "\". ID: " << root->id << endl;
+			cout << "Root found: \"" << root->getSelf() << "\", meaning \"" << root->getTranslation() << "\". ID: " << root->getId() << endl;
 			cout << "choose affix: " << endl;
-			cout << "(1) " << root->self << "al  (2) " << root->self << "ti  " << endl;
+			cout << "(1) " << root->getSelf() << "al  (2) " << root->getSelf() << "ti  " << endl;
 
 			int choice;
 			cin >> choice;
@@ -94,10 +99,10 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 			switch (choice)
 			{
 			case 1:
-				name = root->self + "al";
+				name = root->getSelf() + "al";
 				break;
 			case 2:
-				name = root->self + "ti";
+				name = root->getSelf() + "ti";
 				break;
 			}
 
@@ -125,15 +130,16 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 			cout << "Submit the meaning of " << name << endl;
 			cin >> meaning;
 
-			id = (root->id * 100) + 1;
+			id = (root->getId() * 100) + 1;
 			Noun noun(id, name, meaning, root);
 			library.push_back(noun);
 			corpus.push_back(name);
 
 			//Add this noun as a child to the verb
-            cerr << &(noun.self) << endl;
-            root->childNoun.push_back(&noun);
-
+            //cerr << &(noun.self) << endl;
+            root->getChildNoun().push_back(&noun);
+            
+            //cout << (*(root->childNoun.begin()))->self << endl;
 			/*
 			for (int p = 0; p < 5; p++)
 			{

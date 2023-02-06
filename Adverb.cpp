@@ -22,6 +22,11 @@ Adverb::Adverb(int identity, string name, string meaning, Adjective* root)
 	: Word(identity, name, meaning, ADV), root(root)
 {}
 
+Adjective* Adverb::getRoot() const
+{
+    return root;
+}
+
 void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>& corpus)
 {
 	cout << "You can now add adjverbs. Once finished, submit 'done' " << endl;
@@ -50,7 +55,7 @@ void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>
             list<Adjective>::iterator adjIt;
             for (adjIt = adjLibrary.begin(); adjIt != adjLibrary.end(); adjIt++)
             {
-                if (adjIt->self == name)
+                if (adjIt->getSelf() == name)
                 {
                     adjFound = true;
                     root = &(*adjIt);
@@ -62,7 +67,7 @@ void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>
             {
                 for (adjIt = adjLibrary.begin(); adjIt != adjLibrary.end(); adjIt++)
                 {
-                    if (adjIt->self == meaning)
+                    if (adjIt->getSelf() == meaning)
                     {
                         adjFound = true;
                         root = &(*adjIt);
@@ -77,9 +82,9 @@ void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>
 				continue;
 			}
 
-			cout << "Adjective found: \"" << root->self << "\", meaning \"" << root->translation << "\". ID: " << root->id << endl;
+			cout << "Adjective found: \"" << root->getSelf() << "\", meaning \"" << root->getTranslation() << "\". ID: " << root->getId() << endl;
 			cout << "choose affix: " << endl;
-			cout << "(1) " << root->self << "ang  (2) " << root->self << "ju  " << endl;
+			cout << "(1) " << root->getSelf() << "ang  (2) " << root->getSelf() << "ju  " << endl;
 
 			int choice;
 			cin >> choice;
@@ -87,10 +92,10 @@ void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>
 			switch (choice)
 			{
 			case 1:
-				name = root->self + "ang";
+				name = root->getSelf() + "ang";
 				break;
 			case 2:
-				name = root->self + "ju";
+				name = root->getSelf() + "ju";
 				break;
 			}
 
@@ -118,12 +123,12 @@ void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>
 			cout << "Submit the meaning of " << name << endl;
 			cin >> meaning;
 
-			id = root->id + 1;
+			id = root->getId() + 1;
 			Adverb adv(id, name, meaning, root);
 			library.push_back(adv);
 			corpus.push_back(name);
 
-            root->root->root->childAdv.push_back(&adv);
+            root->getRoot()->getRoot()->getChildAdv().push_back(&adv);
 
 			clearScreen();
 			cout << name << " added! ID: " << id << endl;
