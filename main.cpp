@@ -13,6 +13,7 @@
 #include "Noun.h"
 #include "Adjective.h"
 #include "Adverb.h"
+#include "id.h"
 
 using namespace std;
 
@@ -33,14 +34,16 @@ void format(list<Verb> & verbLibrary, list<Noun> & nounLibrary, list<Adjective>&
 			// traverse through the grid of the verb and print each emelent along with its type
 			cout << "	| ";
             
+            list<ThetaCell> tempGrid = verbIt->getGrid();
             list<ThetaCell>::iterator thetaIt;
-			for (thetaIt = verbIt->getGrid().begin(); thetaIt != verbIt->getGrid().end(); thetaIt++)
+			for (thetaIt = tempGrid.begin(); thetaIt != tempGrid.end(); thetaIt++)
 			{
                 cout << elements[thetaIt->element] << " (" << types[thetaIt->type] << ") | ";
 			}
 			
 			cout << endl << "	derived:" << endl;
 			
+            /*
             list<Noun*>::iterator nounIt;
             for (nounIt = verbIt->getChildNoun().begin(); nounIt != verbIt->getChildNoun().end(); nounIt++)
             {
@@ -55,31 +58,6 @@ void format(list<Verb> & verbLibrary, list<Noun> & nounLibrary, list<Adjective>&
             for (advIt = verbIt->getChildAdv().begin(); advIt != verbIt->getChildAdv().end(); advIt++)
 			{
 				cout << "	" << (*advIt)->getSelf() << " (Adv)" << endl;
-			}
-			
-			/*
-			cout << endl << "	derived nouns:" << endl;
-			for (int j = 0; j < 5; j++)
-			{
-				if (verbLibrary[i].childNouns[j] != nullptr)
-				{
-					cout << "	  " << verbLibrary[i].childNouns[0]->self << ": " << verbLibrary[i].childNouns[j]->translation << endl;
-				}
-			}
-			*/
-			/*
-			if (verbLibrary[i].childNouns.size() > 0)
-			{
-				cout << endl << "	derived nouns:" << endl;
-
-				// cout << "	  " << verbLibrary[i].childNouns[0]->self << endl;
-
-
-				for (int g = 0; g < verbLibrary[i].childNouns.size(); g++)
-				{
-					if (verbLibrary[i].childNouns[g] != nullptr)
-						cout << "	  " << verbLibrary[i].childNouns[g]->self << ": " << verbLibrary[i].childNouns[g]->translation << endl;
-				}
 			}
 			*/
 
@@ -416,6 +394,8 @@ int main()
 	list<Adverb> advLibrary = { };
 	list<Word> wordLibrary = { };
 	list<string> corpus = { };
+    
+    ID_Manager manager = ID_Manager();
 
 	cout << "Welcome to the Lexical Formatter, a tool that helps create and format all the words in your Conlang!" << endl;
 	cout << "=========================" << endl;
@@ -444,7 +424,7 @@ int main()
 			switch (choice)
 			{
 			case 1:
-				addVerbs(verbLibrary, corpus);
+				addVerbs(verbLibrary, corpus, manager);
 				break;
 			case 2:
 				addNouns(nounLibrary, verbLibrary, corpus);

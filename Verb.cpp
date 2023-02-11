@@ -12,6 +12,7 @@
 #include "Noun.h"
 #include "Adjective.h"
 #include "Adverb.h"
+#include "id.h"
 
 using namespace std;
 
@@ -103,7 +104,7 @@ string getRandomRoot(list<string>& corpus)
 	}
 }
 
-void addVerbs(list<Verb>& library, list<string>& corpus)
+void addVerbs(list<Verb>& library, list<string>& corpus, ID_Manager& manager)
 {
 	cout << "You can now add verbs. Once finished, submit 'done' " << endl;
 
