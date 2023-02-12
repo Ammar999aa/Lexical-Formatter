@@ -151,7 +151,8 @@ void addVerbs(list<Verb>& library, list<string>& corpus, ID_Manager& manager)
 
 		vector<list<ThetaCell>> grids = { gridEat, gridWant, gridGo, gridPut, gridSleep };
 
-        Verb finalVerb(library.size() + 1, name, meaning, grids[role - 1]);
+        ID id = manager.generateID(VERB, nullptr);
+        Verb finalVerb(id.display(), name, meaning, grids[role - 1]);
 		library.push_back(finalVerb);
         
         //list<ThetaCell>::iterator thetaIt;

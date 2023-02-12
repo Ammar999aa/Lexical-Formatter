@@ -20,6 +20,7 @@ public:
     ID(int cat, int rootNumber, int derivationNumber, bool isDerived);
     
     int display() const;
+    std::string displayAsString() const;
     int getCategory() const;
     bool getHasRoot() const;
     int getRoot() const;

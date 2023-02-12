@@ -34,7 +34,7 @@ void appendNoun(list<Noun> library, Noun &noun, Verb *root)
 	//root->childNouns.push_back(&library[library.size() - 1]);
 }
 
-void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus)
+void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus, ID_Manager& manager)
 {
 	cout << "You can now add nouns. Once finished, submit 'done' " << endl;
 
@@ -42,7 +42,7 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 	{
 		string name = ".";
 		string meaning;
-		int id;
+		ID id = ID(-1, -1, -1);
 		Verb* root = nullptr;
 
 		cout << "add your noun: 'r' for a root-derived noun, 'done' or 'd' to finish" << endl;
@@ -74,7 +74,7 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
             {
                 for (verbIt = verbLibrary.begin(); verbIt != verbLibrary.end(); verbIt++)
                 {
-                    if (verbIt->getSelf() == meaning)
+                    if (verbIt->getTranslation() == name)
                     {
                         verbFound = true;
                         root = &(*verbIt);
@@ -130,8 +130,8 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 			cout << "Submit the meaning of " << name << endl;
 			cin >> meaning;
 
-			id = (root->getId() * 100) + 1;
-			Noun noun(id, name, meaning, root);
+			id = manager.generateID(NOUN, root);
+			Noun noun(id.display(), name, meaning, root);
 			library.push_back(noun);
 			corpus.push_back(name);
 
@@ -139,19 +139,8 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
             //cerr << &(noun.self) << endl;
             root->getChildNoun().push_back(&noun);
             
-            //cout << (*(root->childNoun.begin()))->self << endl;
-			/*
-			for (int p = 0; p < 5; p++)
-			{
-				if (root->childNouns[p] != nullptr)
-					cout << root->childNouns[p]->self << endl;
-				else
-					cout << "nullptr" << endl;
-			}
-			*/
-			// root->childNouns.push_back(&noun);
 			clearScreen();
-			cout << name << " added! ID: " << id << endl;
+			cout << name << " added! ID: " << id.display() << endl;
 			
 		}
 		else
@@ -181,7 +170,8 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 			cout << "enter meaning for " << name << endl;
 			cin >> meaning;
 
-			library.push_back(Noun(1, name, meaning, nullptr));
+            id = manager.generateID(NOUN, nullptr);
+			library.push_back(Noun(id.display(), name, meaning, nullptr));
 			corpus.push_back(name);
 
 			clearScreen();

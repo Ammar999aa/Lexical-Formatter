@@ -14,7 +14,15 @@ ID::ID(int cat, int rootNumber, int derivationNumber, bool isDerived)
 
 int ID::display() const
 {
-    return -1;
+    int magCat = category * 100000000;
+    int magRoot = root * 10000;
+    int magDerivation = derivation * 1;
+    return (magCat + magRoot + magDerivation);
+}
+
+std::string ID::displayAsString() const
+{
+    return "";
 }
 
 int ID::getCategory() const
@@ -45,6 +53,7 @@ ID_Manager::ID_Manager()
 
 ID ID_Manager::generateID(int category, Verb* root)
 {
+    ID id = ID(-1, -1, -1);
     int rootNumber;
     int derivationNumber;
     bool hasRoot;
@@ -61,7 +70,7 @@ ID ID_Manager::generateID(int category, Verb* root)
         derivationNumber = 0;
         hasRoot = false;
         
-        ID id = ID(category, rootNumber, derivationNumber, hasRoot);
+        id = ID(category, rootNumber, derivationNumber, hasRoot);
         
         rootTracker++;
         derivationTracker.push_back(0);
@@ -71,7 +80,7 @@ ID ID_Manager::generateID(int category, Verb* root)
         bool allFull = true;
         for (int i = 0; i < 5; i++)
         {
-            if (derivationTracker[i] != 9999)
+            if (derivationTracker[i] != 9999 && allFull == true)
             {
                 allFull = false;
                 rootNumber = i;
@@ -87,16 +96,17 @@ ID ID_Manager::generateID(int category, Verb* root)
         
         hasRoot = false;
         
-        ID id = ID(category, rootNumber, derivationNumber, hasRoot);
+        id = ID(category, rootNumber, derivationNumber, hasRoot);
         derivationTracker[rootNumber]++;
     }
     else
     {
         return ID(-1, -1, -1);
-        
+        // this part is on the works...
+        // it should be done after we turn ID's turn from integers to ID objects in classes.
         
         
     }
 
-    return ID(-1, -1, -1);
+    return id;
 }

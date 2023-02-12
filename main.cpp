@@ -30,7 +30,7 @@ void format(list<Verb> & verbLibrary, list<Noun> & nounLibrary, list<Adjective>&
         list<Verb>::iterator verbIt;
 		for (verbIt = verbLibrary.begin(); verbIt != verbLibrary.end(); verbIt++)
 		{
-			cout << verbIt->getSelf() << " - " << verbIt->getTranslation() << " (" << categories[verbIt->getCategory()] << ")" << endl;
+            cout << verbIt->getSelf() << " - " << verbIt->getTranslation() << " (" << categories[verbIt->getCategory()] << ")" << " ID: " << verbIt->getId() << endl;
 			// traverse through the grid of the verb and print each emelent along with its type
 			cout << "	| ";
             
@@ -67,7 +67,7 @@ void format(list<Verb> & verbLibrary, list<Noun> & nounLibrary, list<Adjective>&
         list<Noun>::iterator nounIt;
 		for (nounIt = nounLibrary.begin(); nounIt != nounLibrary.end(); nounIt++)
 		{
-			cout << nounIt->getSelf() << " - " << nounIt->getTranslation() << " (" << categories[nounIt->getCategory()] << ")" << endl;
+			cout << nounIt->getSelf() << " - " << nounIt->getTranslation() << " (" << categories[nounIt->getCategory()] << ")" << " ID: " << nounIt->getId() << endl;
 			
 			if (nounIt->getRoot() != nullptr)
 				cout << "	from: " << nounIt->getRoot()->getSelf() << endl;
@@ -427,7 +427,7 @@ int main()
 				addVerbs(verbLibrary, corpus, manager);
 				break;
 			case 2:
-				addNouns(nounLibrary, verbLibrary, corpus);
+				addNouns(nounLibrary, verbLibrary, corpus, manager);
 				break;
 			case 3:
 				addAdjectives(adjLibrary, nounLibrary, corpus);

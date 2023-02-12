@@ -15,6 +15,6 @@ private:
 	Verb* root;
 };
 
-void addNouns(std::list<Noun>& library, std::list<Verb>& verbLibrary, std::list<std::string>& corpus);
+void addNouns(std::list<Noun>& library, std::list<Verb>& verbLibrary, std::list<std::string>& corpus, ID_Manager& manager);
 
 #endif
