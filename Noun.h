@@ -7,12 +7,14 @@
 class Noun : public Word
 {
 public:
-	Noun(int identity, std::string name, std::string meaning, Verb* root, std::string note);
-	Noun(int identity, std::string name, std::string meaning, Verb* root);
-
+	Noun(ID identity, std::string name, std::string meaning, Verb* root, std::string note);
+	Noun(ID identity, std::string name, std::string meaning, Verb* root);
+    // accessors
+    Verb* getRoot() const;
+private:
 	Verb* root;
 };
 
-void addNouns(std::list<Noun>& library, std::list<Verb>& verbLibrary, std::list<std::string>& corpus);
+void addNouns(std::list<Noun>& library, std::list<Verb>& verbLibrary, std::list<std::string>& corpus, ID_Manager& manager);
 
 #endif

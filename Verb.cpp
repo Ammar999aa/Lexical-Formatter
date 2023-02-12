@@ -12,6 +12,7 @@
 #include "Noun.h"
 #include "Adjective.h"
 #include "Adverb.h"
+#include "id.h"
 
 using namespace std;
 
@@ -19,13 +20,33 @@ ThetaCell::ThetaCell(int role, int phrase)
 	: element(role), type(phrase) 
 {}
 
-Verb::Verb(int identity, string name, string meaning, list<ThetaCell> thetaGrid, string note)
+Verb::Verb(ID identity, string name, string meaning, list<ThetaCell> thetaGrid, string note)
 	: Word(identity, name, meaning, VERB, note), grid(thetaGrid), childNoun(), childAdj(), childAdv()
 {}
 
-Verb::Verb(int identity, string name, string meaning, list<ThetaCell> thetaGrid)
+Verb::Verb(ID identity, string name, string meaning, list<ThetaCell> thetaGrid)
 	: Word(identity, name, meaning, VERB), grid(thetaGrid), childNoun(), childAdj(), childAdv()
 {}
+
+std::list<ThetaCell> Verb::getGrid() const
+{
+    return grid;
+}
+
+std::list<Noun*> Verb::getChildNoun() const
+{
+    return childNoun;
+}
+
+std::list<Adjective*> Verb::getChildAdj() const
+{
+    return childAdj;
+}
+
+std::list<Adverb*> Verb::getChildAdv() const
+{
+    return childAdv;
+}
 
 string getRandomRoot(list<string>& corpus)
 {
@@ -83,7 +104,7 @@ string getRandomRoot(list<string>& corpus)
 	}
 }
 
-void addVerbs(list<Verb>& library, list<string>& corpus)
+void addVerbs(list<Verb>& library, list<string>& corpus, ID_Manager& manager)
 {
 	cout << "You can now add verbs. Once finished, submit 'done' " << endl;
 
@@ -130,8 +151,12 @@ void addVerbs(list<Verb>& library, list<string>& corpus)
 
 		vector<list<ThetaCell>> grids = { gridEat, gridWant, gridGo, gridPut, gridSleep };
 
-		library.push_back(Verb(library.size() + 1, name, meaning, grids[role - 1]));
-
+        ID id = manager.generateID(VERB, nullptr);
+        Verb finalVerb(id, name, meaning, grids[role - 1]);
+		library.push_back(finalVerb);
+        
+        //list<ThetaCell>::iterator thetaIt;
+        //for (thetaIt = library.end()->getGrid().begin(); thetaIt = )
 		clearScreen();
 	}
 }
