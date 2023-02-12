@@ -78,7 +78,7 @@ void format(list<Verb> & verbLibrary, list<Noun> & nounLibrary, list<Adjective>&
         list<Adjective>::iterator adjIt;
 		for (adjIt = adjLibrary.begin(); adjIt != adjLibrary.end(); adjIt++)
 		{
-			cout << adjIt->getSelf() << " - " << adjIt->getTranslation() << " (" << categories[adjIt->getCategory()] << ")" << endl;
+			cout << adjIt->getSelf() << " - " << adjIt->getTranslation() << " (" << categories[adjIt->getCategory()] << ")" << " ID: " << adjIt->getId() << endl;
 
 			if (adjIt->getRoot() != nullptr)
 				cout << "	from: " << adjIt->getRoot()->getSelf() << endl;
@@ -89,7 +89,7 @@ void format(list<Verb> & verbLibrary, list<Noun> & nounLibrary, list<Adjective>&
         list<Adverb>::iterator advIt;
         for (advIt = advLibrary.begin(); advIt != advLibrary.end(); advIt++)
         {
-            cout << advIt->getSelf() << " - " << advIt->getTranslation() << " (" << categories[advIt->getCategory()] << ")" << endl;
+            cout << advIt->getSelf() << " - " << advIt->getTranslation() << " (" << categories[advIt->getCategory()] << ")" << " ID: " << advIt->getId() << endl;
 
             if (advIt->getRoot() != nullptr)
                 cout << "    from: " << advIt->getRoot()->getSelf() << endl;
@@ -430,10 +430,10 @@ int main()
 				addNouns(nounLibrary, verbLibrary, corpus, manager);
 				break;
 			case 3:
-				addAdjectives(adjLibrary, nounLibrary, corpus);
+				addAdjectives(adjLibrary, nounLibrary, corpus, manager);
 				break;
 			case 4:
-				addAdverbs(advLibrary, adjLibrary, corpus);
+				addAdverbs(advLibrary, adjLibrary, corpus, manager);
 			}
 			break;
 		case 2:

@@ -3,6 +3,7 @@
 
 #include "Word.h"
 #include "Noun.h"
+#include "id.h"
 
 class Adjective : public Word
 {
@@ -16,6 +17,6 @@ private:
 	Noun* root;
 };
 
-void addAdjectives(std::list<Adjective>& library, std::list<Noun>& nounLibrary, std::list<std::string>& corpus);
+void addAdjectives(std::list<Adjective>& library, std::list<Noun>& nounLibrary, std::list<std::string>& corpus, ID_Manager& manager);
 
 #endif

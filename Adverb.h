@@ -16,6 +16,6 @@ private:
 	Adjective* root;
 };
 
-void addAdverbs(std::list<Adverb>& library, std::list<Adjective>& adjLibrary, std::list<std::string>& corpus);
+void addAdverbs(std::list<Adverb>& library, std::list<Adjective>& adjLibrary, std::list<std::string>& corpus, ID_Manager& manager);
 
 #endif

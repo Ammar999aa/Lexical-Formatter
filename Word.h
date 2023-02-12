@@ -5,6 +5,7 @@
 #include <string>
 #include <cstdlib>
 #include "global.h"
+#include "id.h"
 
 class Word
 {

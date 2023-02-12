@@ -27,7 +27,7 @@ Noun* Adjective::getRoot() const
     return root;
 }
 
-void addAdjectives(list<Adjective>&library, list<Noun>&nounLibrary, list<string>&corpus)
+void addAdjectives(list<Adjective>&library, list<Noun>&nounLibrary, list<string>&corpus, ID_Manager& manager)
 {
 	cout << "You can now add adjectives. Once finished, submit 'done' " << endl;
 
@@ -67,7 +67,7 @@ void addAdjectives(list<Adjective>&library, list<Noun>&nounLibrary, list<string>
 			{
                 for (nounIt = nounLibrary.begin(); nounIt != nounLibrary.end(); nounIt++)
                 {
-                    if (nounIt->getSelf() == meaning)
+                    if (nounIt->getTranslation() == name)
                     {
                         nounFound = true;
                         root = &(*nounIt);
@@ -123,15 +123,15 @@ void addAdjectives(list<Adjective>&library, list<Noun>&nounLibrary, list<string>
 			cout << "Submit the meaning of " << name << endl;
 			cin >> meaning;
 
-			id = root->getId() + 1;
-			Adjective adj(id, name, meaning, root);
+            ID id = manager.generateID(ADJ, root->getRoot());
+			Adjective adj(id.display(), name, meaning, root);
 			library.push_back(adj);
 			corpus.push_back(name);
 
             root->getRoot()->getChildAdj().push_back(&adj);
 
 			clearScreen();
-			cout << name << " added! ID: " << id << endl;
+			cout << name << " added! ID: " << id.display() << endl;
 
 		}
 		else
@@ -161,12 +161,12 @@ void addAdjectives(list<Adjective>&library, list<Noun>&nounLibrary, list<string>
 			cout << "enter meaning for " << name << endl;
 			cin >> meaning;
 
-			library.push_back(Adjective(1, name, meaning, nullptr));
+            ID id = manager.generateID(ADJ, nullptr);
+			library.push_back(Adjective(id.display(), name, meaning, nullptr));
 			corpus.push_back(name);
 
 			clearScreen();
 			cout << "adjective created!" << endl;
-
 		}
 	}
 }

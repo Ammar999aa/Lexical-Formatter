@@ -27,7 +27,7 @@ Adjective* Adverb::getRoot() const
     return root;
 }
 
-void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>& corpus)
+void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>& corpus, ID_Manager& manager)
 {
 	cout << "You can now add adjverbs. Once finished, submit 'done' " << endl;
 
@@ -67,7 +67,7 @@ void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>
             {
                 for (adjIt = adjLibrary.begin(); adjIt != adjLibrary.end(); adjIt++)
                 {
-                    if (adjIt->getSelf() == meaning)
+                    if (adjIt->getTranslation() == name)
                     {
                         adjFound = true;
                         root = &(*adjIt);
@@ -123,15 +123,15 @@ void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>
 			cout << "Submit the meaning of " << name << endl;
 			cin >> meaning;
 
-			id = root->getId() + 1;
-			Adverb adv(id, name, meaning, root);
+            ID id = manager.generateID(ADV, root->getRoot()->getRoot());
+			Adverb adv(id.display(), name, meaning, root);
 			library.push_back(adv);
 			corpus.push_back(name);
 
             root->getRoot()->getRoot()->getChildAdv().push_back(&adv);
 
 			clearScreen();
-			cout << name << " added! ID: " << id << endl;
+			cout << name << " added! ID: " << id.display() << endl;
 
 		}
 		else
@@ -160,7 +160,8 @@ void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>
 			cout << "enter meaning for " << name << endl;
 			cin >> meaning;
 
-			library.push_back(Adverb(1, name, meaning, nullptr));
+            ID id = manager.generateID(ADV, nullptr);
+			library.push_back(Adverb(id.display(), name, meaning, nullptr));
 			corpus.push_back(name);
 
 			clearScreen();
@@ -168,6 +169,4 @@ void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>
 
 		}
 	}
-
-
 }
