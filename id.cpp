@@ -114,3 +114,9 @@ ID ID_Manager::generateID(int category, Verb* root)
 
     return id;
 }
+
+int ID_Manager::derivationCount(ID id) const
+{
+    int rootNumber = id.getRoot();
+    return derivationTracker[rootNumber];
+}

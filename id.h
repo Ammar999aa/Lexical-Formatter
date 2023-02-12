@@ -38,6 +38,7 @@ class ID_Manager
 public:
     ID_Manager();
     ID generateID(int category, Verb* root);
+    int derivationCount(ID id) const;
     
 private:
     int rootTracker;
