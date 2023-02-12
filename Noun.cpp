@@ -14,11 +14,11 @@
 
 using namespace std;
 
-Noun::Noun(int identity, string name, string meaning, Verb* root, string note)
+Noun::Noun(ID identity, string name, string meaning, Verb* root, string note)
 	: Word(identity, name, meaning, NOUN, note), root(root) 
 {}
 
-Noun::Noun(int identity, string name, string meaning, Verb* root)
+Noun::Noun(ID identity, string name, string meaning, Verb* root)
 	: Word(identity, name, meaning, NOUN), root(root) 
 {}
 
@@ -89,7 +89,7 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 				continue;
 			}
 
-			cout << "Root found: \"" << root->getSelf() << "\", meaning \"" << root->getTranslation() << "\". ID: " << root->getId() << endl;
+			cout << "Root found: \"" << root->getSelf() << "\", meaning \"" << root->getTranslation() << "\". ID: " << root->getId().display() << endl;
 			cout << "choose affix: " << endl;
 			cout << "(1) " << root->getSelf() << "al  (2) " << root->getSelf() << "ti  " << endl;
 
@@ -131,7 +131,7 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 			cin >> meaning;
 
 			id = manager.generateID(NOUN, root);
-			Noun noun(id.display(), name, meaning, root);
+			Noun noun(id, name, meaning, root);
 			library.push_back(noun);
 			corpus.push_back(name);
 
@@ -171,7 +171,7 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 			cin >> meaning;
 
             id = manager.generateID(NOUN, nullptr);
-			library.push_back(Noun(id.display(), name, meaning, nullptr));
+			library.push_back(Noun(id, name, meaning, nullptr));
 			corpus.push_back(name);
 
 			clearScreen();

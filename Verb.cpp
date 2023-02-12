@@ -20,11 +20,11 @@ ThetaCell::ThetaCell(int role, int phrase)
 	: element(role), type(phrase) 
 {}
 
-Verb::Verb(int identity, string name, string meaning, list<ThetaCell> thetaGrid, string note)
+Verb::Verb(ID identity, string name, string meaning, list<ThetaCell> thetaGrid, string note)
 	: Word(identity, name, meaning, VERB, note), grid(thetaGrid), childNoun(), childAdj(), childAdv()
 {}
 
-Verb::Verb(int identity, string name, string meaning, list<ThetaCell> thetaGrid)
+Verb::Verb(ID identity, string name, string meaning, list<ThetaCell> thetaGrid)
 	: Word(identity, name, meaning, VERB), grid(thetaGrid), childNoun(), childAdj(), childAdv()
 {}
 
@@ -152,7 +152,7 @@ void addVerbs(list<Verb>& library, list<string>& corpus, ID_Manager& manager)
 		vector<list<ThetaCell>> grids = { gridEat, gridWant, gridGo, gridPut, gridSleep };
 
         ID id = manager.generateID(VERB, nullptr);
-        Verb finalVerb(id.display(), name, meaning, grids[role - 1]);
+        Verb finalVerb(id, name, meaning, grids[role - 1]);
 		library.push_back(finalVerb);
         
         //list<ThetaCell>::iterator thetaIt;

@@ -14,11 +14,11 @@
 
 using namespace std;
 
-Adjective::Adjective(int identity, string name, string meaning, Noun* root, string note)
+Adjective::Adjective(ID identity, string name, string meaning, Noun* root, string note)
 	: Word(identity, name, meaning, ADJ, note), root(root)
 {}
 
-Adjective::Adjective(int identity, string name, string meaning, Noun* root)
+Adjective::Adjective(ID identity, string name, string meaning, Noun* root)
 	: Word(identity, name, meaning, ADJ), root(root)
 {}
 
@@ -82,7 +82,7 @@ void addAdjectives(list<Adjective>&library, list<Noun>&nounLibrary, list<string>
 				continue;
 			}
 
-			cout << "Noun found: \"" << root->getSelf() << "\", meaning \"" << root->getTranslation() << "\". ID: " << root->getId() << endl;
+			cout << "Noun found: \"" << root->getSelf() << "\", meaning \"" << root->getTranslation() << "\". ID: " << root->getId().display() << endl;
 			cout << "choose affix: " << endl;
 			cout << "(1) " << root->getSelf() << "es  (2) " << root->getSelf() << "no  " << endl;
 
@@ -124,7 +124,7 @@ void addAdjectives(list<Adjective>&library, list<Noun>&nounLibrary, list<string>
 			cin >> meaning;
 
             ID id = manager.generateID(ADJ, root->getRoot());
-			Adjective adj(id.display(), name, meaning, root);
+			Adjective adj(id, name, meaning, root);
 			library.push_back(adj);
 			corpus.push_back(name);
 
@@ -162,7 +162,7 @@ void addAdjectives(list<Adjective>&library, list<Noun>&nounLibrary, list<string>
 			cin >> meaning;
 
             ID id = manager.generateID(ADJ, nullptr);
-			library.push_back(Adjective(id.display(), name, meaning, nullptr));
+			library.push_back(Adjective(id, name, meaning, nullptr));
 			corpus.push_back(name);
 
 			clearScreen();

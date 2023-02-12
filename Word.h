@@ -10,18 +10,18 @@
 class Word
 {
 public:
-	Word(int identity, std::string name, std::string meaning, int cat, std::string note);
-	Word(int identity, std::string name, std::string meaning, int cat);
+	Word(ID identity, std::string name, std::string meaning, int cat, std::string note);
+	Word(ID identity, std::string name, std::string meaning, int cat);
     
     //acessors
-    int getId() const;
+    ID getId() const;
     std::string getSelf() const;
     std::string getTranslation() const;
     std::string getNote() const;
     int getCategory() const;
 
 private:
-	int id;
+	ID id;
 	std::string self;
 	std::string translation;
 	std::string note;

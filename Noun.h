@@ -7,8 +7,8 @@
 class Noun : public Word
 {
 public:
-	Noun(int identity, std::string name, std::string meaning, Verb* root, std::string note);
-	Noun(int identity, std::string name, std::string meaning, Verb* root);
+	Noun(ID identity, std::string name, std::string meaning, Verb* root, std::string note);
+	Noun(ID identity, std::string name, std::string meaning, Verb* root);
     // accessors
     Verb* getRoot() const;
 private:

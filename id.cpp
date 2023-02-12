@@ -1,4 +1,5 @@
 #include "id.h"
+#include "Verb.h"
 
 using namespace std;
 
@@ -101,11 +102,14 @@ ID ID_Manager::generateID(int category, Verb* root)
     }
     else
     {
-        return ID(-1, -1, -1);
-        // this part is on the works...
-        // it should be done after we turn ID's turn from integers to ID objects in classes.
+        cout << root->getId().getRoot() << endl;
+        rootNumber = root->getId().getRoot();
+        derivationNumber = derivationTracker[rootNumber] + 1;
+        derivationTracker[rootNumber]++;
         
+        hasRoot = true;
         
+        id = ID(category, rootNumber, derivationNumber, hasRoot);
     }
 
     return id;

@@ -14,18 +14,18 @@
 
 using namespace std;
 
-Word::Word(int identity, string name, string meaning, int cat, string note)
+Word::Word(ID identity, string name, string meaning, int cat, string note)
 	: id(identity), self(name), translation(meaning), category(cat), note(note) 
 {}
 
-Word::Word(int identity, string name, string meaning, int cat)
+Word::Word(ID identity, string name, string meaning, int cat)
 	: id(identity), self(name), translation(meaning), category(cat)
 {
 	note = "";
 }
 
 // accessors
-int Word::getId() const
+ID Word::getId() const
 {
     return id;
 }

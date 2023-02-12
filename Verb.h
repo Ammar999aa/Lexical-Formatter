@@ -20,8 +20,8 @@ struct ThetaCell
 class Verb : public Word
 {
 public:
-	Verb(int identity, std::string name, std::string meaning, std::list<ThetaCell> thetaGrid, std::string note);
-	Verb(int identity, std::string name, std::string meaning, std::list<ThetaCell> thetaGrid);
+	Verb(ID identity, std::string name, std::string meaning, std::list<ThetaCell> thetaGrid, std::string note);
+	Verb(ID identity, std::string name, std::string meaning, std::list<ThetaCell> thetaGrid);
     //acessors
     std::list<ThetaCell> getGrid() const;
     std::list<Noun*> getChildNoun() const;

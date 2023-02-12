@@ -7,8 +7,8 @@
 class Adverb : public Word
 {
 public:
-	Adverb(int identity, std::string name, std::string meaning, Adjective* root, std::string note);
-	Adverb(int identity, std::string name, std::string meaning, Adjective* root);
+	Adverb(ID identity, std::string name, std::string meaning, Adjective* root, std::string note);
+	Adverb(ID identity, std::string name, std::string meaning, Adjective* root);
     // accessors
     Adjective* getRoot() const;
     
