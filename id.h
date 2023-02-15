@@ -18,6 +18,8 @@ class ID
 public:
     ID(int cat, int rootNumber, int derivationNumber);
     ID(int cat, int rootNumber, int derivationNumber, bool isDerived);
+    int operator == (ID other);
+    int operator != (ID other);
     
     int display() const;
     std::string displayAsString() const;
@@ -37,7 +39,7 @@ class ID_Manager
 {
 public:
     ID_Manager();
-    ID generateID(int category, Verb* root);
+    ID generateID(int category, Verb* root, std::string derivedSelf);
     int derivationCount(ID id) const;
     
 private:

@@ -21,7 +21,7 @@ ThetaCell::ThetaCell(int role, int phrase)
 {}
 
 Verb::Verb(ID identity, string name, string meaning, list<ThetaCell> thetaGrid, string note)
-	: Word(identity, name, meaning, VERB, note), grid(thetaGrid), childNoun(), childAdj(), childAdv()
+	: Word(identity, name, meaning, VERB, note), grid(thetaGrid), childNoun(), childAdj(), childAdv(), derivedId()
 {}
 
 Verb::Verb(ID identity, string name, string meaning, list<ThetaCell> thetaGrid)
@@ -46,6 +46,16 @@ std::list<Adjective*> Verb::getChildAdj() const
 std::list<Adverb*> Verb::getChildAdv() const
 {
     return childAdv;
+}
+
+vector<ID> Verb::getDerivationID() const
+{
+    return derivedId;
+}
+
+void Verb::addDerived(ID id)
+{
+    derivedId.push_back(id);
 }
 
 string getRandomRoot(list<string>& corpus)
@@ -151,7 +161,7 @@ void addVerbs(list<Verb>& library, list<string>& corpus, ID_Manager& manager)
 
 		vector<list<ThetaCell>> grids = { gridEat, gridWant, gridGo, gridPut, gridSleep };
 
-        ID id = manager.generateID(VERB, nullptr);
+        ID id = manager.generateID(VERB, nullptr, name);
         Verb finalVerb(id, name, meaning, grids[role - 1]);
 		library.push_back(finalVerb);
         

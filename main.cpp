@@ -44,9 +44,43 @@ void format(list<Verb> & verbLibrary, list<Noun> & nounLibrary, list<Adjective>&
 			
 			cout << endl << "	derived:" << endl;
 			
-            for (int i = 0; i < manager.derivationCount(verbIt->getId()); i++)
+            for (int i = 0; i < verbIt->getDerivationID().size(); i++)
             {
-                cout << "       /word/" << endl;
+                int derivedCategory = verbIt->getDerivationID()[i].getCategory();
+                
+                switch (derivedCategory)
+                {
+                    case NOUN:
+                        for (list<Noun>::iterator nounIt = nounLibrary.begin(); nounIt != nounLibrary.end(); nounIt++)
+                        {
+                            if (nounIt->getId() == verbIt->getDerivationID()[i])
+                            {
+                                cout << "       " << nounIt->getSelf() << " (" << categories[NOUN] << ")" << endl;
+                                break;
+                            }
+                        }
+                        break;
+                    case ADJ:
+                        for (list<Adjective>::iterator adjIt = adjLibrary.begin(); adjIt != adjLibrary.end(); adjIt++)
+                        {
+                            if (adjIt->getId() == verbIt->getDerivationID()[i])
+                            {
+                                cout << adjIt->getSelf() << " (" << categories[ADJ] << ")" << endl;
+                                break;
+                            }
+                        }
+                        break;
+                    case ADV:
+                        for (list<Adverb>::iterator advIt = advLibrary.begin(); advIt != advLibrary.end(); advIt++)
+                        {
+                            if (advIt->getId() == verbIt->getDerivationID()[i])
+                            {
+                                cout << advIt->getSelf() << " (" << categories[ADV] << ")" << endl;
+                                break;
+                            }
+                        }
+                        break;
+                }
             }
 
 			cout << endl;

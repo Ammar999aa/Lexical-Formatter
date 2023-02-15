@@ -123,7 +123,7 @@ void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>
 			cout << "Submit the meaning of " << name << endl;
 			cin >> meaning;
 
-            ID id = manager.generateID(ADV, root->getRoot()->getRoot());
+            ID id = manager.generateID(ADV, root->getRoot()->getRoot(), name);
 			Adverb adv(id, name, meaning, root);
 			library.push_back(adv);
 			corpus.push_back(name);
@@ -160,7 +160,7 @@ void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>
 			cout << "enter meaning for " << name << endl;
 			cin >> meaning;
 
-            ID id = manager.generateID(ADV, nullptr);
+            ID id = manager.generateID(ADV, nullptr, name);
 			library.push_back(Adverb(id, name, meaning, nullptr));
 			corpus.push_back(name);
 

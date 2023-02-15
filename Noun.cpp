@@ -130,7 +130,7 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 			cout << "Submit the meaning of " << name << endl;
 			cin >> meaning;
 
-			id = manager.generateID(NOUN, root);
+			id = manager.generateID(NOUN, root, name);
 			Noun noun(id, name, meaning, root);
 			library.push_back(noun);
 			corpus.push_back(name);
@@ -170,7 +170,7 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 			cout << "enter meaning for " << name << endl;
 			cin >> meaning;
 
-            id = manager.generateID(NOUN, nullptr);
+            id = manager.generateID(NOUN, nullptr, name);
 			library.push_back(Noun(id, name, meaning, nullptr));
 			corpus.push_back(name);
 

@@ -13,6 +13,24 @@ ID::ID(int cat, int rootNumber, int derivationNumber, bool isDerived)
 {
 }
 
+int ID::operator == (ID other)
+{
+    if (root == other.root && derivation == other.derivation && category == other.category && hasRoot == other.hasRoot)
+    {
+        return 1;
+    }
+    return 0;
+}
+
+int ID::operator != (ID other)
+{
+    if (root != other.root || derivation != other.derivation || category != other.category || hasRoot != other.hasRoot)
+    {
+        return 1;
+    }
+    return 0;
+}
+
 int ID::display() const
 {
     int magCat = category * 100000000;
@@ -52,12 +70,12 @@ ID_Manager::ID_Manager()
     derivationTracker = { 0, 0, 0, 0, 0 };
 }
 
-ID ID_Manager::generateID(int category, Verb* root)
+ID ID_Manager::generateID(int category, Verb* root, string derivedSelf)
 {
-    ID id = ID(-1, -1, -1);
-    int rootNumber;
-    int derivationNumber;
-    bool hasRoot;
+    int rootNumber = -1;
+    int derivationNumber = -1;
+    bool hasRoot = true;
+    ID id = ID(rootNumber, derivationNumber, hasRoot);
     
     if (category == VERB)
     {
@@ -110,6 +128,7 @@ ID ID_Manager::generateID(int category, Verb* root)
         hasRoot = true;
         
         id = ID(category, rootNumber, derivationNumber, hasRoot);
+        root->addDerived(id);
     }
 
     return id;

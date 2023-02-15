@@ -27,9 +27,14 @@ public:
     std::list<Noun*> getChildNoun() const;
     std::list<Adjective*> getChildAdj() const;
     std::list<Adverb*> getChildAdv() const;
+    std::vector<ID> getDerivationID() const;
+    
+    //mutators
+    void addDerived(ID id);
     
 private:
 	std::list<ThetaCell> grid;
+    std::vector<ID> derivedId;
     
 	std::list<Noun*> childNoun;
 	std::list<Adjective*> childAdj;
