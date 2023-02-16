@@ -4,6 +4,7 @@
 #include "Word.h"
 #include "Adjective.h"
 
+
 class Adverb : public Word
 {
 public:

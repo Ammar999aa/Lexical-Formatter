@@ -11,6 +11,7 @@
 
 #include "global.h"
 
+
 class Verb;
 
 class ID
