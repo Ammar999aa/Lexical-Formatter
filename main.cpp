@@ -20,6 +20,91 @@
 
 using namespace std;
 
+void deleteWords(list<Verb>& verbLibrary, list<Noun>& nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary,  list<string>& corpus, ID_Manager& manager)
+{
+    cout << "you can now delete. Once finished, submit 'done' " << endl;
+    
+    while (1)
+    {
+        cout << "input the name of the adverb to delete. Once finished, submit 'done' " << endl;
+        
+        string name;
+        cin >> name;
+        
+        if (name == "done" || name == "d")
+        {
+            clearScreen();
+            break;
+        }
+        else
+        {
+            // find word in the libraries, aand print it.
+            bool categoryFound = false;
+            for (list<Verb>::iterator it = verbLibrary.begin(); it != verbLibrary.end(); it++)
+            {
+                if (it->getSelf() == name)
+                {
+                    categoryFound = true;
+                    clearScreen();
+                    cout << "word found and deleted: " << endl;
+                    printVerb(verbLibrary, nounLibrary, adjLibrary, advLibrary, it);
+                    // delete verb function call
+                    break;
+                }
+            }
+            if (!categoryFound)
+            {
+                for (list<Noun>::iterator it = nounLibrary.begin(); it != nounLibrary.end(); it++)
+                {
+                    if (it->getSelf() == name)
+                    {
+                        categoryFound = true;
+                        clearScreen();
+                        cout << "word found and deleted: " << endl;
+                        printNoun(it);
+                        deleteNoun(it, nounLibrary, verbLibrary, corpus, manager);
+                        break;
+                    }
+                }
+            }
+            if (!categoryFound)
+            {
+                for (list<Adjective>::iterator it = adjLibrary.begin(); it != adjLibrary.end(); it++)
+                {
+                    if (it->getSelf() == name)
+                    {
+                        categoryFound = true;
+                        clearScreen();
+                        cout << "word found and deleted: " << endl;
+                        printAdj(it);
+                        deleteAdjective(it, adjLibrary, verbLibrary, corpus, manager);
+                        break;
+                    }
+                }
+            }
+            if (!categoryFound)
+            {
+                for (list<Adverb>::iterator it = advLibrary.begin(); it != advLibrary.end(); it++)
+                {
+                    if (it->getSelf() == name)
+                    {
+                        categoryFound = true;
+                        clearScreen();
+                        cout << "word found and deleted: " << endl;
+                        printAdv(it);
+                        deleteAdverb(it, advLibrary, verbLibrary, corpus, manager);
+                        break;
+                    }
+                }
+            }
+            if (!categoryFound)
+            {
+                cout << name << " " << "info not found" << endl;
+            }
+        }
+    }
+}
+
 void generateDelim(list<Verb>& verbLibrary, list<Noun> &nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary)
 {
 	
@@ -357,6 +442,7 @@ int main()
             }
 			break;
 		case 2:
+            deleteWords(verbLibrary, nounLibrary, adjLibrary, advLibrary, corpus, manager);
 			break;
 		case 3:
             cout << "Choose sorting:" << endl;

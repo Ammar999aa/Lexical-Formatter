@@ -170,3 +170,10 @@ void addAdjectives(list<Adjective>&library, list<Noun>&nounLibrary, list<string>
 		}
 	}
 }
+
+void deleteAdjective(list<Adjective>::iterator it, list<Adjective>& library, list<Verb>& verbLibrary, list<string>& corpus, ID_Manager& manager)
+{
+    //it->getRoot()->getRoot()->deleteDerived...
+    library.erase(it);
+    corpus.remove(it->getSelf());
+}

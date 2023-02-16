@@ -11,6 +11,7 @@
 #include "Noun.h"
 #include "Adjective.h"
 #include "Adverb.h"
+#include "id.h"
 
 using namespace std;
 
@@ -169,4 +170,11 @@ void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>
 
 		}
 	}
+}
+
+void deleteAdverb(list<Adverb>::iterator it, list<Adverb>& library, list<Verb>& verbLibrary, list<string>& corpus, ID_Manager& manager)
+{
+    //it->getRoot()->getRoot()->getRoot()->deleteDerived...
+    library.erase(it);
+    corpus.remove(it->getSelf());
 }

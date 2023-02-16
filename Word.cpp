@@ -24,6 +24,24 @@ Word::Word(ID identity, string name, string meaning, int cat)
 	note = "";
 }
 
+int Word::operator == (Word other)
+{
+    if (id == other.getId() && self == other.getSelf())
+    {
+        return 1;
+    }
+    return 0;
+}
+
+int Word::operator != (Word other)
+{
+    if (id != other.getId() || self != other.getSelf())
+    {
+        return 1;
+    }
+    return 0;
+}
+
 // accessors
 ID Word::getId() const
 {

@@ -179,5 +179,11 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 
 		}
 	}
+}
 
+void deleteNoun(list<Noun>::iterator it, list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus, ID_Manager& manager)
+{
+    //it->getRoot()->deleteDerived...
+    library.erase(it);
+    corpus.remove(it->getSelf());
 }

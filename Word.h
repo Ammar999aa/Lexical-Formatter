@@ -12,6 +12,8 @@ class Word
 public:
 	Word(ID identity, std::string name, std::string meaning, int cat, std::string note);
 	Word(ID identity, std::string name, std::string meaning, int cat);
+    int operator == (Word other);
+    int operator != (Word other);
     
     //acessors
     ID getId() const;
