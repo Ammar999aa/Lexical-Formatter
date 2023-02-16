@@ -1,5 +1,9 @@
 #include <iostream>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string>
+#include <unistd.h>
 #include <list>
 #include <list>
 #include <cstdlib>
@@ -127,289 +131,80 @@ void format(list<Verb> & verbLibrary, list<Noun> & nounLibrary, list<Adjective>&
 	}
 }
 
-
 void generateDelim(list<Verb>& verbLibrary, list<Noun> &nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary)
 {
-	
-	string throwaway;
-	while (1)
-	{
-        list<Verb>::iterator verbIt;
-		for (verbIt = verbLibrary.begin(); verbIt != verbLibrary.end(); verbIt++)
-		{
-            cout << setw(10) << setfill('0') << verbIt->getId().display();
+
+    string outfile_path = "/Users/abdulaziz/Cloud/Software Dev/Lexical-Formatter/data.csv";
+    ofstream outFile;
+    outFile.open(outfile_path);
+    if (outFile.is_open()) {
+        while (true)
+        {
+            list<Verb>::iterator verbIt;
+            for (verbIt = verbLibrary.begin(); verbIt != verbLibrary.end(); verbIt++)
+            {
+                outFile << verbIt->getId().display() << ",";
+                outFile << verbIt->getSelf() << "," << verbIt->getTranslation() << "," << verbIt->getNote() << ",";
+                outFile << verbIt->getGrid().size() << ",";
+                list<ThetaCell> tempGrid = verbIt->getGrid();
+                list<ThetaCell>::iterator thetaIt;
+                for (thetaIt = tempGrid.begin(); thetaIt != tempGrid.end(); thetaIt++)
+                {
+                    outFile << thetaIt->element << "," << thetaIt->type << ",";
+                }
+                outFile << "\n";
+            }
             
-            cout << ";" << verbIt->getSelf() << ";" << verbIt->getTranslation() << ";" << verbIt->getNote() << ";";
-			cout << verbIt->getGrid().size() << ";";
+            list<Noun>::iterator nounIt;
+            for (nounIt = nounLibrary.begin(); nounIt != nounLibrary.end(); nounIt++)
+            {
+                outFile << nounIt->getCategory() << "," << nounIt->getId().display() << ",";
+                outFile << nounIt->getSelf() << "," << nounIt->getTranslation() << "," << nounIt->getNote() << ",";
+                if (nounIt->getRoot() == nullptr)
+                    outFile << "0,";
+                else
+                    outFile << nounIt->getRoot()->getSelf() << ",";
+                outFile << "\n";
+            }
             
-            list<ThetaCell> tempGrid = verbIt->getGrid();
-            list<ThetaCell>::iterator thetaIt;
-			for (thetaIt = tempGrid.begin(); thetaIt != tempGrid.end(); thetaIt++)
-			{
-				cout << thetaIt->element << ";" << thetaIt->type << ";";
-			}
-			cout << "#";
-		}
-        
-        list<Noun>::iterator nounIt;
-		for (nounIt = nounLibrary.begin(); nounIt != nounLibrary.end(); nounIt++)
-		{
-            cout << nounIt->getCategory() << ";" << setw(10) << setfill('0') << nounIt->getId().display();
-            cout << ";" << nounIt->getSelf() << ";" << nounIt->getTranslation() << ";" << nounIt->getNote() << ";";
-			if (nounIt->getRoot() == nullptr)
-				cout << "0;";
-			else
-				cout << nounIt->getRoot()->getSelf() << ";";
-			cout << "#";
-		}
-        
-        list<Adjective>::iterator adjIt;
-		for (adjIt = adjLibrary.begin() ; adjIt != adjLibrary.end(); adjIt++)
-		{
-            cout << adjIt->getCategory() << ";" << setw(10) << setfill('0') << adjIt->getId().display();
-            cout << ";" << adjIt->getSelf() << ";" << adjIt->getTranslation() << ";" << adjIt->getNote() << ";";
-			if (adjIt->getRoot() == nullptr)
-				cout << "0;";
-			else
-				cout << adjIt->getRoot()->getSelf() << ";";
-			cout << "#";
-		}
+            list<Adjective>::iterator adjIt;
+            for (adjIt = adjLibrary.begin() ; adjIt != adjLibrary.end(); adjIt++)
+            {
+                outFile << adjIt->getCategory() << "," << adjIt->getId().display() << ",";
+                outFile << adjIt->getSelf() << "," << adjIt->getTranslation() << "," << adjIt->getNote() << ",";
+                if (adjIt->getRoot() == nullptr)
+                    outFile << "0,";
+                else
+                    outFile << adjIt->getRoot()->getSelf() << ",";
+                outFile << "\n";
+            }
 
-        list<Adverb>::iterator advIt;
-		for (advIt = advLibrary.begin() ; advIt != advLibrary.end(); advIt++)
-		{
-            cout << advIt->getCategory() << ";" << setw(10) << setfill('0') << advIt->getId().display();
-            cout << ";" << advIt->getSelf() << ";" << advIt->getTranslation() << ";" << advIt->getNote() << ";";
-			if (advIt->getRoot() == nullptr)
-				cout << "0;";
-			else
-				cout << advIt->getRoot()->getSelf() << ";";
-			cout << "#";
-		}
+            list<Adverb>::iterator advIt;
+            for (advIt = advLibrary.begin() ; advIt != advLibrary.end(); advIt++)
+            {
+                outFile << advIt->getCategory() << "," << advIt->getId().display() << ",";
+                outFile << advIt->getSelf() << "," << advIt->getTranslation() << "," << advIt->getNote() << ",";
+                if (advIt->getRoot() == nullptr)
+                    outFile << "0,";
+                else
+                    outFile << advIt->getRoot()->getSelf() << ",";
+                outFile << "\n";
+            }
 
-		cout << endl << endl << "To quit, submit 'done' or 'd' " << endl;
-		cin >> throwaway;
-		if (throwaway == "done" || throwaway == "d")
-			break;
-		clearScreen();
-	}
-
-}
-
-void parseDelim(string& text, list<Verb>& verbLibrary, list<Noun>& nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary)
-{
-	int i = 0;
-	while (i < text.size())
-	{
-		ID identity = ID(-1, -1, -1);
-		int cat;
-		string name = "";
-		string meaning = "";
-		string note = "";
-
-		string temp_cat = "";
-		while (text[i] != ';')
-		{
-			temp_cat += text[i];
-			i++;
-		}
-
-		if (temp_cat.size() != 1)
-		{
-			cout << temp_cat << endl;
-			cout << i << " " << text[i + 1] << endl;
-			cout << "category error" << endl;
-			break;
-		}
-
-		cat = temp_cat[0] - 48;
-
-		//cerr << "category " << i << ": " << cat << endl;
-		i++;
-
-		string temp_id = "";
-		while (text[i] != ';')
-		{
-			temp_id += text[i];
-			i++;
-		}
-
-        /*
-		for (int k = temp_id.size() - 1; k > -1; k--)
-		{
-			identity += temp_id[k] * pow(10, (temp_id.size() - k - 1)) - 48;
-		}
-        */
-
-		// cerr << "id " << i << ": " << identity << endl;
-		i++;
-		while (text[i] != ';')
-		{
-			name += text[i];
-			i++;
-		}
-
-		//cerr << "name " << i << ": " << name << endl;
-		i++;
-		while (text[i] != ';')
-		{
-			meaning += text[i];
-			i++;
-		}
-
-		//cerr << "meaning " << i << ": " << meaning << endl;
-		i++;
-		while (text[i] != ';')
-		{
-			note += text[i];
-		}
-
-		//cerr << "notes " << i << ": " << note << endl;
-		i++;
-		if (cat == VERB)
-		{
-			vector<int> roles = {};
-			vector<int> phrases = {};
-
-			int gridSize = text[i] - 48;
-			i += 2;
-
-			for (int n = 0; n < gridSize; n++)
-			{
-				//cerr << text[i] << endl;
-				roles.push_back(text[i] - 48);
-				i += 2;
-				//cerr << text[i] << endl;
-				phrases.push_back(text[i] - 48);
-				i += 2;
-			}
-
-			i++;
-
-			list<ThetaCell> thetaGrid = {};
-			for (int p = 0; p < gridSize; p++)
-			{
-				thetaGrid.push_back(ThetaCell(roles[p], phrases[p]));
-			}
-
-			for (int h = 0; h < thetaGrid.size(); h++)
-			{
-				//cerr << "(" << thetaGrid[h].element << ", " << thetaGrid[h].type << ")" << endl;
-			}
-
-			verbLibrary.push_back(Verb(identity, name, meaning, thetaGrid));
-		}
-
-		if (cat == NOUN)
-		{
-			Verb* root = nullptr;
-			string rootName = "";
-
-			if (text[i] != '0')
-			{
-				cout << i << endl;
-				while (text[i] != ';')
-				{
-					rootName += text[i];
-					i++;
-				}
-                
-                list<Verb>::iterator verbIt;
-                for (verbIt = verbLibrary.begin(); verbIt != verbLibrary.end(); verbIt++)
-				{
-					if (verbIt->getSelf() == rootName)
-					{
-						root = &*verbIt;
-					}
-				}
-				i--;
-			}
-            nounLibrary.push_back(Noun(identity, name, meaning, root, note));
-			i += 3;
-		}
-
-		if (cat == ADJ)
-		{
-			Noun* root = nullptr;
-			string rootName = "";
-
-			if (text[i] != '0')
-			{
-				cout << i << endl;
-				while (text[i] != ';')
-				{
-					rootName += text[i];
-					i++;
-				}
-                
-                list<Noun>::iterator nounIt;
-                for (nounIt = nounLibrary.begin(); nounIt != nounLibrary.end(); nounIt++)
-				{
-					if (nounIt->getSelf() == rootName)
-					{
-						root = &*nounIt;
-					}
-				}
-				i--;
-			}
-			adjLibrary.push_back(Adjective(identity, name, meaning, root, note));
-			i += 3;
-		}
-
-		if (cat == ADV)
-		{
-			Adjective* root = nullptr;
-			string rootName = "";
-
-			if (text[i] != '0')
-			{
-				cout << i << endl;
-				while (text[i] != ';')
-				{
-					rootName += text[i];
-					i++;
-				}
-                
-                list<Adjective>::iterator adjIt;
-				for (adjIt = adjLibrary.begin();  adjIt != adjLibrary.end(); adjIt++)
-				{
-					if (adjIt->getSelf() == rootName)
-					{
-						root = &*adjIt;
-					}
-				}
-				i--;
-			}
-			advLibrary.push_back(Adverb(identity, name, meaning, root, note));
-			i += 3;
-		}
-	}
-}
-
- 
-void uploadWords(list<Verb> &verbLibrary, list<Noun> &nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary)
-{
-	string throwaway;
-	while (1)
-	{
-		cout << "paste here, or submit 'done' or 'd' to exit." << endl;
-
-		string text;
-		cin >> text;
-
-		if (text == "done" || text == "d")
-		{
-			break;
-		}
-		
-		parseDelim(text, verbLibrary, nounLibrary, adjLibrary, advLibrary);
-
-		cout << "Words Successfully Added!" << endl << "Submit 'd' to exit" << endl;
-		cin >> throwaway;
-		if (throwaway == "done" || throwaway == "d")
-			break;
-		clearScreen();
-	}
+            outFile << "\nTo quit, submit 'done' or 'd' \n";
+           string input;
+           getline(cin, input);
+           if (input.empty() || input[0] == 'd') {
+               break;
+           }
+           clearScreen();
+        }
+        outFile.close();
+        cout << "Data saved to " << "data.csv" << " successfully." << endl;
+    }
+    else {
+        cout << "Error opening " << "data.csv" << " for writing." << endl;
+    }
 }
 
 int main()
@@ -469,11 +264,20 @@ int main()
 			format(verbLibrary, nounLibrary, adjLibrary, advLibrary, corpus, manager);
 			break;
 		case 4:
-			generateDelim(verbLibrary, nounLibrary, adjLibrary, advLibrary);
-			break;
+            {
+            generateDelim(verbLibrary, nounLibrary, adjLibrary, advLibrary);
+            }
+            break;
 		case 5:
-			uploadWords(verbLibrary, nounLibrary, adjLibrary, advLibrary);
+//			readDelim(verbLibrary, nounLibrary, adjLibrary, advLibrary);
+            break;
+
+        case 6:
+            return 0;
+            break;
+            
 		}
+        
 		clearScreen();
 	}
 
