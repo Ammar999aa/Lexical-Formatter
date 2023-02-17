@@ -20,6 +20,17 @@
 
 using namespace std;
 
+void takeAPeak(list<string>& corpus)
+{
+    for (auto it = corpus.begin(); it != corpus.end(); it++)
+    {
+        cout << *it << endl;
+    }
+    
+    string throwaway;
+    cin >> throwaway;
+}
+
 void deleteWords(list<Verb>& verbLibrary, list<Noun>& nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary,  list<string>& corpus, ID_Manager& manager)
 {
     cout << "you can now delete. Once finished, submit 'done' " << endl;
@@ -457,6 +468,9 @@ int main()
                     break;
                 case 2:
                     formatAlphabetically(verbLibrary, nounLibrary, adjLibrary, advLibrary, corpus, manager);
+                    break;
+                case 3:
+                    takeAPeak(corpus);
                     break;
             }
             break;

@@ -150,7 +150,6 @@ void addVerbs(list<Verb>& library, list<string>& corpus, ID_Manager& manager)
 				cout << "input " << name << " already exists" << endl;
 				continue;
 			}
-			corpus.push_back(name);
 		}
 
 		cout << "input the translation" << endl;
@@ -164,6 +163,7 @@ void addVerbs(list<Verb>& library, list<string>& corpus, ID_Manager& manager)
         ID id = manager.generateID(VERB, nullptr, name);
         Verb finalVerb(id, name, meaning, grids[role - 1]);
 		library.push_back(finalVerb);
+        corpus.push_back(name);
         
         //list<ThetaCell>::iterator thetaIt;
         //for (thetaIt = library.end()->getGrid().begin(); thetaIt = )
