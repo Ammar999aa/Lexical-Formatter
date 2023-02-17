@@ -26,58 +26,58 @@ void printVerb(list<Verb>& verbLibrary, list<Noun>& nounLibrary, list<Adjective>
     vector<string> types = { "DP", "PP" , "CP", "AdjP", "AdvP", "VP" };
     vector<string> categories = { "v", "n", "Adj", "Adv", "Det" };
     
-        cout << verbIt->getSelf() << " - " << verbIt->getTranslation() << " (" << categories[verbIt->getCategory()] << ")" << " ID: " << setw(10) << setfill('0') << verbIt->getId().display() << endl;
-        // traverse through the grid of the verb and print each emelent along with its type
-        cout << "    | ";
+    cout << verbIt->getSelf() << " - " << verbIt->getTranslation() << " (" << categories[verbIt->getCategory()] << ")" << " ID: " << setw(10) << setfill('0') << verbIt->getId().display() << endl;
+    // traverse through the grid of the verb and print each emelent along with its type
+    cout << "    | ";
+    
+    list<ThetaCell> tempGrid = verbIt->getGrid();
+    list<ThetaCell>::iterator thetaIt;
+    for (thetaIt = tempGrid.begin(); thetaIt != tempGrid.end(); thetaIt++)
+    {
+        cout << elements[thetaIt->element] << " (" << types[thetaIt->type] << ") | ";
+    }
+    
+    cout << endl << "    derived:" << endl;
+    
+    for (int i = 0; i < verbIt->getDerivationID().size(); i++)
+    {
+        int derivedCategory = verbIt->getDerivationID()[i].getCategory();
         
-        list<ThetaCell> tempGrid = verbIt->getGrid();
-        list<ThetaCell>::iterator thetaIt;
-        for (thetaIt = tempGrid.begin(); thetaIt != tempGrid.end(); thetaIt++)
+        switch (derivedCategory)
         {
-            cout << elements[thetaIt->element] << " (" << types[thetaIt->type] << ") | ";
+            case NOUN:
+                for (list<Noun>::iterator nounIt = nounLibrary.begin(); nounIt != nounLibrary.end(); nounIt++)
+                {
+                    if (nounIt->getId() == verbIt->getDerivationID()[i])
+                    {
+                        cout << "       " << nounIt->getSelf() << " (" << categories[NOUN] << ")" << endl;
+                        break;
+                    }
+                }
+                break;
+            case ADJ:
+                for (list<Adjective>::iterator adjIt = adjLibrary.begin(); adjIt != adjLibrary.end(); adjIt++)
+                {
+                    if (adjIt->getId() == verbIt->getDerivationID()[i])
+                    {
+                        cout << "       " << adjIt->getSelf() << " (" << categories[ADJ] << ")" << endl;
+                        break;
+                    }
+                }
+                break;
+            case ADV:
+                for (list<Adverb>::iterator advIt = advLibrary.begin(); advIt != advLibrary.end(); advIt++)
+                {
+                    if (advIt->getId() == verbIt->getDerivationID()[i])
+                    {
+                        cout << "       " << advIt->getSelf() << " (" << categories[ADV] << ")" << endl;
+                        break;
+                    }
+                }
+                break;
         }
-        
-        cout << endl << "    derived:" << endl;
-        
-        for (int i = 0; i < verbIt->getDerivationID().size(); i++)
-        {
-            int derivedCategory = verbIt->getDerivationID()[i].getCategory();
-            
-            switch (derivedCategory)
-            {
-                case NOUN:
-                    for (list<Noun>::iterator nounIt = nounLibrary.begin(); nounIt != nounLibrary.end(); nounIt++)
-                    {
-                        if (nounIt->getId() == verbIt->getDerivationID()[i])
-                        {
-                            cout << "       " << nounIt->getSelf() << " (" << categories[NOUN] << ")" << endl;
-                            break;
-                        }
-                    }
-                    break;
-                case ADJ:
-                    for (list<Adjective>::iterator adjIt = adjLibrary.begin(); adjIt != adjLibrary.end(); adjIt++)
-                    {
-                        if (adjIt->getId() == verbIt->getDerivationID()[i])
-                        {
-                            cout << "       " << adjIt->getSelf() << " (" << categories[ADJ] << ")" << endl;
-                            break;
-                        }
-                    }
-                    break;
-                case ADV:
-                    for (list<Adverb>::iterator advIt = advLibrary.begin(); advIt != advLibrary.end(); advIt++)
-                    {
-                        if (advIt->getId() == verbIt->getDerivationID()[i])
-                        {
-                            cout << "       " << advIt->getSelf() << " (" << categories[ADV] << ")" << endl;
-                            break;
-                        }
-                    }
-                    break;
-            }
-        }
-        cout << endl;
+    }
+    cout << endl;
 }
 
 void printNoun(list<Noun>::iterator nounIt)
@@ -139,7 +139,7 @@ void formatAlphabetically(list<Verb> & verbLibrary, list<Noun> & nounLibrary, li
         
         sort(sortedCorpus.begin(), sortedCorpus.end());
         
-        for (int i = 0; i < sortedCorpus.size(); i += 2) // for some reason i has to increment by 2 otherwise it will print doubles.
+        for (int i = 0; i < sortedCorpus.size(); i += 1)
         {
             bool wordFound = false;
             

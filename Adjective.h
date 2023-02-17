@@ -20,7 +20,7 @@ private:
 
 void addAdjectives(std::list<Adjective>& library, std::list<Noun>& nounLibrary, std::list<std::string>& corpus, ID_Manager& manager);
 
-void deleteAdjective(std::list<Adjective>::iterator it, std::list<Adjective>& library, std::list<Verb>& verbLibrary, std::list<std::string>& corpus, ID_Manager& manager);
+void deleteAdjective(std::list<Adjective>::iterator it, std::string name, std::list<Adjective>& library, std::list<Verb>& verbLibrary, std::list<std::string>& corpus, ID_Manager& manager);
 
 
 #endif

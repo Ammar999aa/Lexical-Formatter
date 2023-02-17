@@ -31,6 +31,7 @@ public:
     
     //mutators
     void addDerived(ID id);
+    void removeDerivation(ID id);
     
 private:
 	std::list<ThetaCell> grid;
@@ -44,6 +45,8 @@ private:
 std::string getRandomRoot(std::list<std::string>& corpus);
 
 void addVerbs(std::list<Verb>& library, std::list<std::string>& corpus, ID_Manager& manager);
+
+void deleteVerb(std::list<Verb>::iterator it, std::string name, std::vector<ID> derivationID, std::list<Verb>& verbLibrary, std::list<Noun>& nounLibrary, std::list<Adjective>& adjLibrary, std::list<Adverb>& advLibrary, std::list<std::string>& corpus, ID_Manager& manager);
 
 const std::list<ThetaCell> gridEat = { ThetaCell(AGENT, DP), ThetaCell(THEME, DP) };
 const std::list<ThetaCell> gridWant = { ThetaCell(EXPERIENCER, DP), ThetaCell(THEME, CP) };

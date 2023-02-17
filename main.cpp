@@ -59,7 +59,7 @@ void deleteWords(list<Verb>& verbLibrary, list<Noun>& nounLibrary, list<Adjectiv
                     clearScreen();
                     cout << "word found and deleted: " << endl;
                     printVerb(verbLibrary, nounLibrary, adjLibrary, advLibrary, it);
-                    // delete verb function call
+                    deleteVerb(it, it->getSelf(), it->getDerivationID(), verbLibrary, nounLibrary, adjLibrary, advLibrary, corpus, manager);
                     break;
                 }
             }
@@ -73,7 +73,7 @@ void deleteWords(list<Verb>& verbLibrary, list<Noun>& nounLibrary, list<Adjectiv
                         clearScreen();
                         cout << "word found and deleted: " << endl;
                         printNoun(it);
-                        deleteNoun(it, nounLibrary, verbLibrary, corpus, manager);
+                        deleteNoun(it, it->getSelf(), nounLibrary, verbLibrary, corpus, manager);
                         break;
                     }
                 }
@@ -88,7 +88,7 @@ void deleteWords(list<Verb>& verbLibrary, list<Noun>& nounLibrary, list<Adjectiv
                         clearScreen();
                         cout << "word found and deleted: " << endl;
                         printAdj(it);
-                        deleteAdjective(it, adjLibrary, verbLibrary, corpus, manager);
+                        deleteAdjective(it, it->getSelf(), adjLibrary, verbLibrary, corpus, manager);
                         break;
                     }
                 }
@@ -103,7 +103,7 @@ void deleteWords(list<Verb>& verbLibrary, list<Noun>& nounLibrary, list<Adjectiv
                         clearScreen();
                         cout << "word found and deleted: " << endl;
                         printAdv(it);
-                        deleteAdverb(it, advLibrary, verbLibrary, corpus, manager);
+                        deleteAdverb(it, it->getSelf(), advLibrary, verbLibrary, corpus, manager);
                         break;
                     }
                 }

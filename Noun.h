@@ -17,6 +17,6 @@ private:
 
 void addNouns(std::list<Noun>& library, std::list<Verb>& verbLibrary, std::list<std::string>& corpus, ID_Manager& manager);
 
-void deleteNoun(std::list<Noun>::iterator it, std::list<Noun>& library, std::list<Verb>& verbLibrary, std::list<std::string>& corpus, ID_Manager& manager);
+void deleteNoun(std::list<Noun>::iterator it, std::string name, std::list<Noun>& library, std::list<Verb>& verbLibrary, std::list<std::string>& corpus, ID_Manager& manager);
 
 #endif

@@ -133,7 +133,7 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 			id = manager.generateID(NOUN, root, name);
 			Noun noun(id, name, meaning, root);
 			library.push_back(noun);
-			corpus.push_back(name);
+			//corpus.push_back(name);
 
 			//Add this noun as a child to the verb
             //cerr << &(noun.self) << endl;
@@ -172,7 +172,7 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 
             id = manager.generateID(NOUN, nullptr, name);
 			library.push_back(Noun(id, name, meaning, nullptr));
-			corpus.push_back(name);
+			//corpus.push_back(name);
 
 			clearScreen();
 			cout << "noun created!" << endl;
@@ -181,9 +181,9 @@ void addNouns(list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus
 	}
 }
 
-void deleteNoun(list<Noun>::iterator it, list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus, ID_Manager& manager)
+void deleteNoun(list<Noun>::iterator it, string name, list<Noun>& library, list<Verb>& verbLibrary, list<string>& corpus, ID_Manager& manager)
 {
-    //it->getRoot()->deleteDerived...
+    if (it->getRoot() != nullptr) it->getRoot()->removeDerivation(it->getId());
     library.erase(it);
-    corpus.remove(it->getSelf());
+    corpus.remove(name);
 }

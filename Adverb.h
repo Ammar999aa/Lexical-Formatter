@@ -20,7 +20,7 @@ private:
 
 void addAdverbs(std::list<Adverb>& library, std::list<Adjective>& adjLibrary, std::list<std::string>& corpus, ID_Manager& manager);
 
-void deleteAdverb(std::list<Adverb>::iterator, std::list<Adverb>& library, std::list<Verb>& verbLibrary, std::list<std::string>& corpus, ID_Manager& manager);
+void deleteAdverb(std::list<Adverb>::iterator it, std::string name, std::list<Adverb>& library, std::list<Verb>& verbLibrary, std::list<std::string>& corpus, ID_Manager& manager);
 
 
 #endif

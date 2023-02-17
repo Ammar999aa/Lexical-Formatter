@@ -127,7 +127,7 @@ void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>
             ID id = manager.generateID(ADV, root->getRoot()->getRoot(), name);
 			Adverb adv(id, name, meaning, root);
 			library.push_back(adv);
-			corpus.push_back(name);
+			//corpus.push_back(name);
 
             root->getRoot()->getRoot()->getChildAdv().push_back(&adv);
 
@@ -163,7 +163,7 @@ void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>
 
             ID id = manager.generateID(ADV, nullptr, name);
 			library.push_back(Adverb(id, name, meaning, nullptr));
-			corpus.push_back(name);
+			//corpus.push_back(name);
 
 			clearScreen();
 			cout << "adverb created!" << endl;
@@ -172,9 +172,19 @@ void addAdverbs(list<Adverb>& library, list<Adjective>& adjLibrary, list<string>
 	}
 }
 
-void deleteAdverb(list<Adverb>::iterator it, list<Adverb>& library, list<Verb>& verbLibrary, list<string>& corpus, ID_Manager& manager)
+void deleteAdverb(list<Adverb>::iterator it, string name, list<Adverb>& library, list<Verb>& verbLibrary, list<string>& corpus, ID_Manager& manager)
 {
-    //it->getRoot()->getRoot()->getRoot()->deleteDerived...
+    if (it->getRoot() != nullptr) // if has adj root
+    {
+        if (it->getRoot()->getRoot() != nullptr) // if has noun root
+        {
+            if (it->getRoot()->getRoot()->getRoot() != nullptr) // if has verb root
+            {
+                it->getRoot()->getRoot()->getRoot()->removeDerivation(it->getId());
+            }
+        }
+    }
+    
     library.erase(it);
-    corpus.remove(it->getSelf());
+    corpus.remove(name);
 }

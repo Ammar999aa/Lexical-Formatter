@@ -58,6 +58,17 @@ void Verb::addDerived(ID id)
     derivedId.push_back(id);
 }
 
+void Verb::removeDerivation(ID id)
+{
+    for (int i = 0; i < derivedId.size(); i++)
+    {
+        if (derivedId[i] == id)
+        {
+            derivedId.erase(derivedId.begin() + i);
+        }
+    }
+}
+
 string getRandomRoot(list<string>& corpus)
 {
 	string word;
@@ -169,4 +180,65 @@ void addVerbs(list<Verb>& library, list<string>& corpus, ID_Manager& manager)
         //for (thetaIt = library.end()->getGrid().begin(); thetaIt = )
 		clearScreen();
 	}
+}
+
+void deleteVerb(list<Verb>::iterator it, string name, vector<ID> derivationID, list<Verb>& verbLibrary, list<Noun>& nounLibrary, list<Adjective>& adjLibrary, list<Adverb>& advLibrary, list<string>& corpus, ID_Manager& manager)
+{
+    verbLibrary.erase(it);
+    corpus.remove(name);
+    
+    if (derivationID.size() != 0)
+    {
+        cout << "delete derivations?" << endl;
+        cout << "y for yes, n for no." << endl;
+        
+        string choice;
+        cin >> choice;
+        if (choice == "y")
+        {
+            for (int i = 0; i < derivationID.size(); i++)
+            {
+                if (derivationID[i].getCategory() == NOUN)
+                {
+                    for (list<Noun>::iterator nounIt = nounLibrary.begin(); nounIt != nounLibrary.end(); nounIt++)
+                    {
+                        // do they have the same id?
+                        if (nounIt->getId() == derivationID[i])
+                        {
+                            corpus.remove(nounIt->getSelf());
+                            nounLibrary.erase(nounIt);
+                            break;
+                        }
+                    }
+                }
+                if (derivationID[i].getCategory() == ADJ)
+                {
+                    for (list<Adjective>::iterator adjIt = adjLibrary.begin(); adjIt != adjLibrary.end(); adjIt++)
+                    {
+                        // do they have the same id?
+                        if (adjIt->getId() == derivationID[i])
+                        {
+                            corpus.remove(adjIt->getSelf());
+                            adjLibrary.erase(adjIt);
+                            break;
+                        }
+                    }
+                }
+                if (derivationID[i].getCategory() == ADV)
+                {
+                    for (list<Adverb>::iterator advIt = advLibrary.begin(); advIt != advLibrary.end(); advIt++)
+                    {
+                        // do they have the same id?
+                        if (advIt->getId() == derivationID[i])
+                        {
+                            corpus.remove(advIt->getSelf());
+                            advLibrary.erase(advIt);
+                            break;
+                        }
+                    }
+                }
+            }
+            cout << "derivations deleted" << endl;
+        }
+    }
 }
